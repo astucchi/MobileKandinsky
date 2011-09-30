@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx"
+		   xmlns:spicefactory="http://www.spicefactory.org/parsley/pimento"
+			xmlns:parsley="http://www.spicefactory.org/parsley">
+	<fx:Declarations>
+		<parsley:Configure/>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			
+			import presentation.MainPresentationModel;
+			[Inject] [Bindable]
+			public var model:MainPresentationModel;			
+
+		]]>
+	</fx:Script>
+	<s:VGroup >
+		<s:Label text="{model.selectedDocument.file}" fontSize="24"/>
+		<s:Label text="{model.selectedDocument.titolo}" fontSize="24"/>
+		<s:Label text="{model.selectedDocument.natura}" fontSize="24" />
+		<s:Label text="{model.selectedDocument.anno}" fontSize="24" />
+		<s:Label text="{model.selectedDocument.citta}" fontSize="24" />
+		
+		<!--<s:Label text="{model.selectedDocument.production}" fontSize="24" />
+		<s:Label text="{model.selectedDocument.year2}" fontSize="24" />
+		<s:Label text="{model.selectedDocument.city2}" fontSize="24" />
+		<s:Label text="{model.selectedDocument.country2}" fontSize="24" />
+		<s:Label text="{model.selectedDocument.production2}" fontSize="24" />
+		<s:Label text="{model.selectedDocument.selection_by}" fontSize="24" />
+		<s:Label text="{model.selectedDocument.web_ref}" fontSize="24" />
+		<s:Label text="{model.selectedDocument.subnature}" fontSize="24" />
+		<s:Label text="{model.selectedDocument.dimensioni}" fontSize="24" />
+		<s:Label text="{model.selectedDocument.collocazione}" fontSize="24" />
+		<s:Label text="{model.selectedDocument.author}" fontSize="24" />-->
+	</s:VGroup>	
+
+	
+
+	
+</s:Group>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="init()" width="100%" height="100%" 
+		 xmlns:parsley="http://www.spicefactory.org/parsley" xmlns:presentation="presentation.*">
+	<s:states>
+		<s:State name="complete"/>
+		<s:State name="Loading"/>
+	</s:states>
+	
+	
+	<fx:Metadata>
+		[Event(name="changeIndex")]
+	</fx:Metadata>
+	
+	
+	<fx:Declarations>
+		<parsley:Configure/>
+		
+	</fx:Declarations>
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import flashx.textLayout.factory.TruncationOptions;
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			
+			
+			import spark.events.IndexChangeEvent;
+			
+			private var _dataProvider:ArrayCollection;		
+			[Bindable]
+			public var _itemRenderer:IFactory;
+			
+			public var isLoading:Boolean = true;
+			
+			private var _yDown:Number;
+			private var _xDown:Number;
+			private var _yUp:Number;
+			private var _xUp:Number;
+			
+			private var num : int = 1;
+			
+			public static var CHANGE_INDEX : String="changeIndex";  
+			
+			private function init():void
+			{
+				addEventListener(MouseEvent.MOUSE_DOWN,mouseDown);
+				addEventListener(MouseEvent.MOUSE_UP,mouseUp);
+				addEventListener(MouseEvent.MOUSE_WHEEL,mouseWheel);
+			}
+			
+			// getter & setter
+			public function get dataProvider():ArrayCollection
+			{
+				return _dataProvider;
+			}
+			
+			public function set dataProvider(value:ArrayCollection):void
+			{
+				_dataProvider = value;
+				list.dataProvider=dataProvider;
+				list.selectedIndex=Math.floor(list.dataProvider.length/2);
+			}
+			
+			public function set itemRenderer(value:IFactory):void
+			{
+				_itemRenderer = value;
+			}
+			
+			// private function
+			private function mouseUp(e:MouseEvent):void
+			{
+				_yUp=e.stageY;
+				_xUp=e.stageX;
+				if(_xDown<15 || _xUp<15 )
+				{
+					return;
+				}
+				var _selectedIndex:Number=list.selectedIndex;
+				var step:Number=Math.round((_yDown-_yUp)/25);
+				if(step!=0)
+				{
+					_selectedIndex+=step
+					if(_selectedIndex<0)
+						list.selectedIndex=0;
+					else if(_selectedIndex>list.dataProvider.length-1)
+						list.selectedIndex=list.dataProvider.length-1;
+					else
+						list.selectedIndex=_selectedIndex;
+					this.dispatchEvent(new Event(CHANGE_INDEX));
+				}
+			}
+			
+			private function mouseDown(e:MouseEvent):void
+			{
+				_yDown=e.stageY;
+				_xDown=e.stageX;
+			}
+			private function mouseWheel(e:MouseEvent):void
+			{
+				var _selectedIndex:Number=list.selectedIndex;
+				_selectedIndex-=e.delta;
+				if(_selectedIndex<0)
+					list.selectedIndex=0;
+				else if(_selectedIndex>list.dataProvider.length-1)
+					list.selectedIndex=list.dataProvider.length-1;
+				else
+					list.selectedIndex=_selectedIndex;
+				this.dispatchEvent(new Event(CHANGE_INDEX));
+			}
+			
+			private function listChangeIndex(e:IndexChangeEvent):void
+			{
+				CFLayout.index=e.newIndex;
+				this.dispatchEvent(new Event(CHANGE_INDEX));
+			}
+			
+			private function sliderChangeIndex(e:Event):void
+			{
+				list.selectedIndex=e.target.value;
+				this.dispatchEvent(new Event(CHANGE_INDEX));
+			}
+			
+			private function loadComplete():void
+			{
+				if (isLoading)
+				{
+					num++;
+					
+					//Alert.show("loader "+num);
+					//currentState="complete";
+					//if (num%2==0) {
+					spinner.visible=false
+					list.visible=true;
+					isLoading=false;
+					//}
+					
+				} else {
+					num=0;
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	
+	<s:List id="list" change="listChangeIndex(event)"  height="100%" width="100%"
+			itemRenderer="{_itemRenderer}" selectedIndex="{CFLayout.index}" borderColor="red" visible="false"
+			dragEnabled="true">
+		<s:layout>
+			<presentation:CoverFlowLayout id="CFLayout" index="{list.selectedIndex}" loadComplete="loadComplete()" />
+		</s:layout>
+	</s:List>
+	
+	<s:VGroup verticalAlign="middle" horizontalAlign="center" id="spinner" width="100%" height="100%" visible="true">
+		<presentation:LoadingSpinner  tickColor="#66aaff" size="50"/>			
+	</s:VGroup>
+	
+	<s:VSlider id="idxSlider" minimum="0" maximum="{list.dataProvider.length-1}"  left="5" bottom="20"
+			   snapInterval="1" liveDragging="true" value="{list.selectedIndex}"  rotation="180" change="sliderChangeIndex(event)" top="5"/>	
+	
+</s:Group>

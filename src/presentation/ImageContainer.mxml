@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 xmlns:parsley="http://www.spicefactory.org/parsley">
+	<fx:Declarations>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import application.Config;
+			
+			import presentation.MainPresentationModel;
+			
+		[Bindable]
+		public var path:String;
+		
+		[Inject][Bindable] public var model:MainPresentationModel;
+		public function setImage(value:String):void
+		{
+			path=value;
+		}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Image width="100%" height="100%" id="img" source="{Config.IMAGEPATH}{model.selectedDocument.file}"/>
+	
+</s:Group>
