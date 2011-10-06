@@ -1,11 +1,10 @@
-package presentation
+package org.kdata.mobile.presentation
 {
-	import application.InitEvent;
-	import application.MongoEvent;
-	
 	import mx.collections.ArrayCollection;
 	
 	import org.db.mongo.Document;
+	import org.kdata.mobile.application.InitEvent;
+	import org.kdata.mobile.application.MongoEvent;
 	import org.serialization.bson.ObjectID;
 
 	public class MainPresentationModel
@@ -14,7 +13,9 @@ package presentation
 		private var dp:ArrayCollection=new ArrayCollection();
 		
 		[Bindable] public var documents:ArrayCollection=new ArrayCollection();
-		[Bindable] public var selectedDocument:Object = new Object();
+		[Bindable] public var selectedDocument:Object;
+		[Bindable] public var docSelected:Document = new Document();
+		[Bindable] public var index:int = -1;
 		
 		[MessageDispatcher] public var dispatchMessage:Function;
 		
@@ -33,7 +34,8 @@ package presentation
 		public function load(skip:int=0):void
 		{
 			var params:Object = new Object();
-			params.indexToSkip=skip;
+			params.indexToSkip = skip;
+			params.doc = docSelected;
 			dispatchMessage(MongoEvent.sendGetAll(params));
 		}
 		

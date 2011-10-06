@@ -9,9 +9,9 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import application.Config;
+			import org.kdata.mobile.application.Config;
 			
-			import presentation.MainPresentationModel;
+			import org.kdata.mobile.presentation.MainPresentationModel;
 			
 		[Bindable]
 		public var path:String;

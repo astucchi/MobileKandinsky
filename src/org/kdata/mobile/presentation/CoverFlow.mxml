@@ -3,7 +3,7 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 creationComplete="init()" width="100%" height="100%" 
-		 xmlns:parsley="http://www.spicefactory.org/parsley" xmlns:presentation="presentation.*">
+		 xmlns:parsley="http://www.spicefactory.org/parsley" xmlns:presentation="org.kdata.mobile.presentation.*" xmlns:binding="org.spicefactory.parsley.binding.*">
 	<s:states>
 		<s:State name="complete"/>
 		<s:State name="Loading"/>
@@ -28,12 +28,14 @@
 			import mx.collections.ArrayCollection;
 			import mx.collections.ArrayList;
 			
-			
 			import spark.events.IndexChangeEvent;
 			
 			private var _dataProvider:ArrayCollection;		
 			[Bindable]
 			public var _itemRenderer:IFactory;
+			
+			[Inject] [Bindable]
+			public var model:MainPresentationModel;
 			
 			public var isLoading:Boolean = true;
 			
@@ -46,11 +48,14 @@
 			
 			public static var CHANGE_INDEX : String="changeIndex";  
 			
+			Multitouch.inputMode = MultitouchInputMode.GESTURE;
+			
 			private function init():void
 			{
-				addEventListener(MouseEvent.MOUSE_DOWN,mouseDown);
+/* 				addEventListener(MouseEvent.MOUSE_DOWN,mouseDown);
 				addEventListener(MouseEvent.MOUSE_UP,mouseUp);
-				addEventListener(MouseEvent.MOUSE_WHEEL,mouseWheel);
+				addEventListener(MouseEvent.MOUSE_WHEEL,mouseWheel); */
+				addEventListener(TransformGestureEvent.GESTURE_SWIPE,swipe);
 			}
 			
 			// getter & setter
@@ -72,6 +77,32 @@
 			}
 			
 			// private function
+			
+			private function swipe(event:TransformGestureEvent):void
+			{
+				var step:Number;
+				
+				if (event.offsetY == 1) {
+					step=-15;
+				}
+				else if (event.offsetY == -1) {
+					step= +15;
+				}
+				
+				var _selectedIndex:Number=list.selectedIndex;
+				
+
+					_selectedIndex+=step
+					if(_selectedIndex<0)
+						list.selectedIndex=0;
+					else if(_selectedIndex>list.dataProvider.length-1)
+						list.selectedIndex=list.dataProvider.length-1;
+					else
+						list.selectedIndex=_selectedIndex;
+					this.dispatchEvent(new Event(CHANGE_INDEX));
+				
+			}
+			
 			private function mouseUp(e:MouseEvent):void
 			{
 				_yUp=e.stageY;
@@ -134,7 +165,7 @@
 					//Alert.show("loader "+num);
 					//currentState="complete";
 					//if (num%2==0) {
-					spinner.visible=false
+//					spinner.visible=false
 					list.visible=true;
 					isLoading=false;
 					//}
@@ -148,18 +179,18 @@
 	
 	
 	<s:List id="list" change="listChangeIndex(event)"  height="100%" width="100%"
-			itemRenderer="{_itemRenderer}" selectedIndex="{CFLayout.index}" borderColor="red" visible="false"
-			dragEnabled="true">
+			itemRenderer="{_itemRenderer}" selectedIndex="{model.index}" borderColor="red" visible="false" verticalScrollPolicy="off">
 		<s:layout>
-			<presentation:CoverFlowLayout id="CFLayout" index="{list.selectedIndex}" loadComplete="loadComplete()" />
+			<presentation:CoverFlowLayout id="CFLayout" index="{model.index}" loadComplete="loadComplete()" verticalScrollPosition="0"/>
 		</s:layout>
 	</s:List>
-	
+<!--	
 	<s:VGroup verticalAlign="middle" horizontalAlign="center" id="spinner" width="100%" height="100%" visible="true">
 		<presentation:LoadingSpinner  tickColor="#66aaff" size="50"/>			
 	</s:VGroup>
 	
 	<s:VSlider id="idxSlider" minimum="0" maximum="{list.dataProvider.length-1}"  left="5" bottom="20"
-			   snapInterval="1" liveDragging="true" value="{list.selectedIndex}"  rotation="180" change="sliderChangeIndex(event)" top="5"/>	
-	
+			   snapInterval="1" liveDragging="true" value="{model.index}"  rotation="180" change="sliderChangeIndex(event)" top="5"/>	
+	-->
+	<fx:Binding source="list.selectedIndex" destination="model.index" />
 </s:Group>

@@ -1,4 +1,4 @@
-package presentation {
+package org.kdata.mobile.presentation {
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
 	

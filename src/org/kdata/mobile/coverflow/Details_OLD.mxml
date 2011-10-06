@@ -10,18 +10,54 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-			
-			import presentation.MainPresentationModel;
+			import org.db.mongo.Document;
+			import org.kdata.mobile.application.Config;
+			import org.kdata.mobile.application.MongoEvent;
+			import org.kdata.mobile.presentation.MainPresentationModel;
 			[Inject] [Bindable]
-			public var model:MainPresentationModel;			
+			public var model:MainPresentationModel;		
+			
 
+		 	protected function getPictureByYear():void
+			{
+				if(lblYear.getStyle("color")==0)
+					lblYear.setStyle("color","red");
+				else
+					lblYear.setStyle("color","black");
+				getPictureBy();
+			}
+			
+			protected function getPictureByNature():void
+			{
+				if(lblNature.getStyle("color")==0)
+					lblNature.setStyle("color","red");
+				else
+					lblNature.setStyle("color","black");
+				getPictureBy();
+			} 
+			
+			private function getPictureBy():void
+			{
+				var doc:Document = new Document();
+
+				if(lblNature.getStyle("color")!=0)
+					doc.put("natura",model.selectedDocument.natura);
+				
+				if(lblYear.getStyle("color")!=0)
+					doc.put("anno",model.selectedDocument.anno);
+				
+				model.docSelected=doc;
+				model.load();
+			}
+			
+			
 		]]>
 	</fx:Script>
 	<s:VGroup >
 		<s:Label text="{model.selectedDocument.file}" fontSize="24"/>
 		<s:Label text="{model.selectedDocument.titolo}" fontSize="24"/>
-		<s:Label text="{model.selectedDocument.natura}" fontSize="24" />
-		<s:Label text="{model.selectedDocument.anno}" fontSize="24" />
+		<s:Label id="lblNature" text="{model.selectedDocument.natura}" fontSize="24" color="black" click="getPictureByNature()"/>
+		<s:Label id="lblYear" text="{model.selectedDocument.anno}" fontSize="24" color="black"  click="getPictureByYear()"/>
 		<s:Label text="{model.selectedDocument.citta}" fontSize="24" />
 		
 		<!--<s:Label text="{model.selectedDocument.production}" fontSize="24" />

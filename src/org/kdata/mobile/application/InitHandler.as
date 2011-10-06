@@ -1,4 +1,4 @@
-package application
+package org.kdata.mobile.application
 {
 
 	public class InitHandler

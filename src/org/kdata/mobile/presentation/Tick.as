@@ -1,4 +1,4 @@
-package presentation{
+package org.kdata.mobile.presentation{
 	import flash.display.Sprite;
 	
 	import mx.effects.Fade;

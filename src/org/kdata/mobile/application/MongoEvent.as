@@ -1,4 +1,4 @@
-package application
+package org.kdata.mobile.application
 {
 	import flash.events.Event;
 	
@@ -8,6 +8,8 @@ package application
 		public static const REPLY_GET_ALL:String =	"replyGetAll";
 		public static const SEND_GET_ONE:String  =	"sendGetOne";
 		public static const REPLY_GET_ONE:String =	"replyGetOne";
+		public static const SEND_GET_BY:String   =	"sendGetBy";
+
 		
 		public var params:Object;
 		
@@ -32,6 +34,10 @@ package application
 		public static function replyGetOne(obj:Object=null):MongoEvent
 		{
 			return new MongoEvent(REPLY_GET_ONE,obj);
+		}
+		public static function sendGetBy(obj:Object=null):MongoEvent
+		{
+			return new MongoEvent(SEND_GET_BY,obj);
 		}
 	}
 }

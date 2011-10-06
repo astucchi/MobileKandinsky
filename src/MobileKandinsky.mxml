@@ -2,10 +2,15 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   xmlns:parsley="http://www.spicefactory.org/parsley" 
-			   xmlns:presentation="presentation.*" 
+			   xmlns:presentation="org.kdata.mobile.presentation.*" 
 			   applicationDPI="160"
 			   creationComplete="init()" 
 			   >
+	<fx:Script>
+		<![CDATA[
+			import org.kdata.mobile.KandinskyConfig;
+		]]>
+	</fx:Script>
 	<fx:Declarations>
 		<parsley:ContextBuilder config="{KandinskyConfig}"/>
 	</fx:Declarations>

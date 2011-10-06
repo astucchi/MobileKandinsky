@@ -1,4 +1,4 @@
-package presentation
+package org.kdata.mobile.presentation
 {
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -105,7 +105,6 @@ package presentation
 						if(element is IVisualElement)
 							IVisualElement(element).depth=-zPosition;
 					}
-				
 				playAnimation();
 			}
 		}
@@ -180,6 +179,7 @@ package presentation
 				initialMatrix=UIComponent(element).transform.matrix3D;
 				initialMatrix.interpolateTo(finalMatrix,0.2);
 				element.setLayoutMatrix3D(initialMatrix,false);
+				verticalScrollPosition = 0;
 			}
 		}
 		

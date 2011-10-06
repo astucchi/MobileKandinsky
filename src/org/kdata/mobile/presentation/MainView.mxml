@@ -2,8 +2,8 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		   xmlns:s="library://ns.adobe.com/flex/spark" 
 		   xmlns:mx="library://ns.adobe.com/flex/mx" 
-		   xmlns:presentation="presentation.*" 
-		   xmlns:coverflow="coverflow.*"
+		   xmlns:presentation="org.kdata.mobile.presentation.*" 
+		   xmlns:coverflow="org.kdata.mobile.coverflow.*"
 		   xmlns:parsley="http://www.spicefactory.org/parsley" 
 		   width="100%" height="100%">
 
@@ -14,7 +14,7 @@
 				<s:Image source="{Config.IMAGEPATH}{data.file}" width="150" height="150" toolTip="/media/img/tn_{data.file}" >
 					<fx:Script>
 						<![CDATA[
-							import application.Config;
+							import org.kdata.mobile.application.Config;
 						]]>
 					</fx:Script>
 				</s:Image>
@@ -24,8 +24,8 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[			
-			import presentation.MainPresentationModel;
-			import application.Config;
+			import org.kdata.mobile.presentation.MainPresentationModel;
+			import org.kdata.mobile.application.Config;
 			
 			
 			
@@ -41,6 +41,7 @@
 			{
 				model.selectedDocument=coverFlow.list.selectedItem;
 				//model.getDetails(coverFlow.list.selectedItem._id);
+				if(coverFlow.list.dataProvider.length>=Config.LIMIT)
 				if((coverFlow.list.selectedIndex < Config.SKIP4LOAD  ) || (coverFlow.list.selectedIndex > Config.LIMIT-Config.SKIP4LOAD ))
 					if((coverFlow.list.selectedItem.index > Config.SKIP4LOAD && coverFlow.list.selectedItem.index < Config.TOTALE-Config.SKIP4LOAD))
 						{
@@ -49,7 +50,7 @@
 								{
 								//coverFlow.currentState="Loading";
  								coverFlow.list.visible=false;
-								coverFlow.spinner.visible=true;
+//								coverFlow.spinner.visible=true;
 								coverFlow.isLoading=true; 
 								model.load(_skip);
 								}
@@ -67,7 +68,7 @@
 								width="30%" height="100%"/>
 		<s:VGroup width="70%" height="100%">
 			<presentation:ImageContainer width="100%" height="100%"/>
-			<coverflow:Details_OLD width="100%" height="100%" />
+			<coverflow:Details_OLD width="100%" height="100%"/>
 		</s:VGroup>
 		
 <!--		<s:VGroup width="30%" height="100%">

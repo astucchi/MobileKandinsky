@@ -1,9 +1,5 @@
-package infrastructure
+package org.kdata.mobile.infrastructure
 {
-	import application.Config;
-	import application.MongoConfig;
-	import application.MongoEvent;
-	
 	import flash.utils.ByteArray;
 	
 	import mx.collections.ArrayCollection;
@@ -17,6 +13,9 @@ package infrastructure
 	import org.db.mongo.auth.Authentication;
 	import org.db.mongo.auth.Credentials;
 	import org.db.mongo.mwp.OpReply;
+	import org.kdata.mobile.application.Config;
+	import org.kdata.mobile.application.MongoConfig;
+	import org.kdata.mobile.application.MongoEvent;
 	import org.serialization.bson.ObjectID;
 	import org.spicefactory.parsley.core.messaging.impl.MessageDispatcher;
 
@@ -47,10 +46,11 @@ package infrastructure
 			else
 			{
 				try
-				{
-					if(params!=null)
+				{					
+					if(params.indexToSkip!=null)
 						_skip=params.indexToSkip;
-					cursor=db.getCollection(mongoConfig.dbCollection).find(new Document(),null,readAll,_skip,-Config.LIMIT);
+						
+					cursor=db.getCollection(mongoConfig.dbCollection).find(params.doc as Document,null,readAll,_skip,-Config.LIMIT);
 					
 				}catch(e:Error)
 				{
@@ -71,6 +71,18 @@ package infrastructure
 			}
 		}
 		
+		public function getBy(params:Object):void
+		{
+			try
+			{
+				cursor=db.getCollection(mongoConfig.dbCollection).find(params as Document,null,readAll,0,-Config.LIMIT);
+			}catch(e:Error)
+			{
+				trace(e.message, "Errore connessione DB");
+			}
+		}
+		
+		
 		private function readAll():void
 		{
 			var documents:ArrayCollection=new ArrayCollection();
@@ -81,7 +93,7 @@ package infrastructure
 			
 			for (var i:int=0 ; i<documents.length ; i++ )
 			{
-				documents[i].index=i+_skip;
+//				documents[i].index=i+_skip;
 				documents[i].UIScale = 100;
 				documents[i].x = 0;
 				documents[i].y = 0;
