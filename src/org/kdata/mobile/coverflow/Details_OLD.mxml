@@ -4,6 +4,7 @@
 		   xmlns:mx="library://ns.adobe.com/flex/mx"
 		   xmlns:spicefactory="http://www.spicefactory.org/parsley/pimento"
 			xmlns:parsley="http://www.spicefactory.org/parsley">
+
 	<fx:Declarations>
 		<parsley:Configure/>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
@@ -13,11 +14,12 @@
 			import org.db.mongo.Document;
 			import org.kdata.mobile.application.Config;
 			import org.kdata.mobile.application.MongoEvent;
+			import org.kdata.mobile.presentation.LabelSelected;
 			import org.kdata.mobile.presentation.MainPresentationModel;
 			[Inject] [Bindable]
 			public var model:MainPresentationModel;		
 			
-
+/* 
 		 	protected function getPictureByYear():void
 			{
 				if(lblYear.getStyle("color")==0)
@@ -48,19 +50,39 @@
 				
 				model.docSelected=doc;
 				model.load();
-			}
+			} */
 			
+			private function filter():void
+			{
+				var doc:Document = new Document();
+				
+				if(cekNature.selected)
+					doc.put("natura",cekNature.label);
+				if(cekYear.selected)
+					doc.put("anno",cekYear.label);
+				if(cekCity.selected)
+					doc.put("citta",cekCity.label);
+				model.docSelected=doc;
+				model.load();
+			}
 			
 		]]>
 	</fx:Script>
 	<s:VGroup >
 		<s:Label text="{model.selectedDocument.file}" fontSize="24"/>
 		<s:Label text="{model.selectedDocument.titolo}" fontSize="24"/>
-		<s:Label id="lblNature" text="{model.selectedDocument.natura}" fontSize="24" color="black" click="getPictureByNature()"/>
+		<s:CheckBox id="cekNature" skinClass="{LabelSelected}" label="{model.selectedDocument.natura}" fontSize="24" click="filter()"/>
+		<s:CheckBox id="cekYear" skinClass="{LabelSelected}" label="{model.selectedDocument.anno}" fontSize="24" click="filter()"/>
+		<s:CheckBox id="cekCity" skinClass="{LabelSelected}" label="{model.selectedDocument.citta}" fontSize="24" click="filter()"/>
+		
+		
+
+		
+		<!--
 		<s:Label id="lblYear" text="{model.selectedDocument.anno}" fontSize="24" color="black"  click="getPictureByYear()"/>
 		<s:Label text="{model.selectedDocument.citta}" fontSize="24" />
-		
-		<!--<s:Label text="{model.selectedDocument.production}" fontSize="24" />
+		<s:Label id="lblNature" text="{model.selectedDocument.natura}" fontSize="24" color="black" click="getPictureByNature()"/>
+		<s:Label text="{model.selectedDocument.production}" fontSize="24" />
 		<s:Label text="{model.selectedDocument.year2}" fontSize="24" />
 		<s:Label text="{model.selectedDocument.city2}" fontSize="24" />
 		<s:Label text="{model.selectedDocument.country2}" fontSize="24" />

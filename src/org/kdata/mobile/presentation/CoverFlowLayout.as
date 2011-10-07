@@ -179,7 +179,7 @@ package org.kdata.mobile.presentation
 				initialMatrix=UIComponent(element).transform.matrix3D;
 				initialMatrix.interpolateTo(finalMatrix,0.2);
 				element.setLayoutMatrix3D(initialMatrix,false);
-				verticalScrollPosition = 0;
+//				verticalScrollPosition = 0;
 			}
 		}
 		
