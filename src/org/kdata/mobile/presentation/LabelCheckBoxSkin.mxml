@@ -11,14 +11,14 @@
 	
 	<!-- states -->
 	<s:states>
-		<s:State name="disabledAndSelected" stateGroups="selectedStates"/>
+		<s:State name="disabledAndSelected" stateGroups="disableStates"/>
 		<s:State name="downAndSelected" stateGroups="selectedStates"/>
 		<s:State name="overAndSelected" stateGroups="selectedStates"/>
 		<s:State name="upAndSelected" stateGroups="selectedStates"/>
-		<s:State name="disabled" />
-		<s:State name="down" />
-		<s:State name="over" />
-		<s:State name="up" />
+		<s:State name="disabled" stateGroups="disableStates"/>
+		<s:State name="down" stateGroups="unselectedStates" />
+		<s:State name="over" stateGroups="unselectedStates"/>
+		<s:State name="up" stateGroups="unselectedStates"/>
 	</s:states>
 	
 	<!-- SkinParts
@@ -35,10 +35,11 @@
 		</s:stroke>
 	</s:Rect>
 	<s:HGroup verticalAlign="middle">
-		<s:BitmapImage source="@Embed(source='assets/unSpunta.png')"
+		<s:BitmapImage source.unselectedStates="@Embed(source='assets/unSpunta.png')"
 					   source.selectedStates="@Embed(source='assets/spunta.png')"
+					   visible.disableStates="false"
 					   x="3" y="3" width="30" height="30"/>
-		<s:Label id="labelDisplay" paddingRight="10"/>
+		<s:Label id="labelDisplay" paddingRight="10" fontSize="24"/>
 	</s:HGroup>
 
 </s:Skin>

@@ -11,15 +11,29 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
+			import flash.utils.getDefinitionByName;
+			import flash.utils.getQualifiedClassName;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.IFlexDisplayObject;
+			import mx.core.IUIComponent;
+			import mx.core.IVisualElement;
+			import mx.utils.object_proxy;
+			
 			import org.db.mongo.Document;
 			import org.kdata.mobile.application.Config;
 			import org.kdata.mobile.application.MongoEvent;
-			import org.kdata.mobile.presentation.LabelSelected;
+			import org.kdata.mobile.presentation.LabelCheckBox;
+			import org.kdata.mobile.presentation.LabelCheckBoxSkin;
 			import org.kdata.mobile.presentation.MainPresentationModel;
+			
+			import spark.core.IGraphicElement;
 			[Inject] [Bindable]
 			public var model:MainPresentationModel;		
+	
+			private var checkElementIndex:ArrayCollection = new ArrayCollection();
 			
-/* 
+/* 			
 		 	protected function getPictureByYear():void
 			{
 				if(lblYear.getStyle("color")==0)
@@ -52,28 +66,62 @@
 				model.load();
 			} */
 			
-			private function filter():void
+			private function filter(e:MouseEvent = null):void
 			{
 				var doc:Document = new Document();
+
 				
-				if(cekNature.selected)
+				for(var i:int = 0 ; i<checkElementIndex.length ; i++)
+				{
+					var chekelement:LabelCheckBox = vgroup.getElementAt(checkElementIndex[i]) as LabelCheckBox;
+					if (chekelement.selected)
+						doc.put(chekelement.id+".text",chekelement.data.text);
+				}
+				
+				
+				
+				
+/* 				if(cekNature.selected)
 					doc.put("natura",cekNature.label);
 				if(cekYear.selected)
 					doc.put("anno",cekYear.label);
 				if(cekCity.selected)
-					doc.put("citta",cekCity.label);
+					doc.put("citta",cekCity.label); */
 				model.docSelected=doc;
 				model.load();
 			}
 			
+			public function dataChange():void
+			{
+				vgroup.removeAllElements();
+				var i:int=0;
+				var obj:Object=model.selectedDocument;
+				for(var o:String in obj)
+				{
+					if(getQualifiedClassName(obj[o]) == getQualifiedClassName(Object))
+					{
+							var element:LabelCheckBox= new LabelCheckBox();
+							element.addEventListener(MouseEvent.CLICK,filter);
+							element.data = obj[o];
+							vgroup.addElement(element);
+							checkElementIndex.addItem(i);
+							i++;
+					}
+					
+					
+				}
+				
+			}
+			
+			
 		]]>
 	</fx:Script>
-	<s:VGroup >
-		<s:Label text="{model.selectedDocument.file}" fontSize="24"/>
-		<s:Label text="{model.selectedDocument.titolo}" fontSize="24"/>
-		<s:CheckBox id="cekNature" skinClass="{LabelSelected}" label="{model.selectedDocument.natura}" fontSize="24" click="filter()"/>
-		<s:CheckBox id="cekYear" skinClass="{LabelSelected}" label="{model.selectedDocument.anno}" fontSize="24" click="filter()"/>
-		<s:CheckBox id="cekCity" skinClass="{LabelSelected}" label="{model.selectedDocument.citta}" fontSize="24" click="filter()"/>
+	<s:VGroup id="vgroup">
+		<s:Label text="{model.selectedDocument.file}" />
+		<s:Label text="{model.selectedDocument.titolo}" />
+		<s:CheckBox id="cekNature"  label="{model.selectedDocument.natura}"  click="filter()"/>
+		<s:CheckBox id="cekYear"  label="{model.selectedDocument.anno}"  click="filter()"/>
+		<s:CheckBox id="cekCity"  label="{model.selectedDocument.citta}" click="filter()"/>
 		
 		
 
