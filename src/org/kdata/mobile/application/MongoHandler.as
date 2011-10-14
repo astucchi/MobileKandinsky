@@ -1,5 +1,7 @@
 package org.kdata.mobile.application
 {
+	import flash.events.Event;
+	
 	import mx.utils.object_proxy;
 	
 	import org.kdata.mobile.infrastructure.MongoQuery;
@@ -13,6 +15,8 @@ package org.kdata.mobile.application
 		[Inject] [Bindable] public var model:MainPresentationModel;
 		
 		private var _skip:int=0;
+		
+		[MessageDispatcher] public var dispatchMessage:Function;
 		
 		[MessageHandler] public function mongoHandler(evt:MongoEvent):void
 		{
@@ -41,7 +45,11 @@ package org.kdata.mobile.application
 						model.index=ind;
 					}
 					else
+					{
 						model.selectedDocument=model.documents.getItemAt(Math.floor(Config.LIMIT/2));
+						dispatchMessage(new Event("initComplete"));
+					}
+						
 					break;
 				case MongoEvent.SEND_GET_ONE :
 					mongoQuery.getOne(evt.params);

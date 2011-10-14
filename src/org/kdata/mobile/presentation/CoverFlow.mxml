@@ -23,10 +23,7 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import flashx.textLayout.factory.TruncationOptions;
-			
 			import mx.collections.ArrayCollection;
-			import mx.collections.ArrayList;
 			
 			import spark.events.IndexChangeEvent;
 			

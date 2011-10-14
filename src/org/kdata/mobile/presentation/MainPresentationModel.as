@@ -16,6 +16,7 @@ package org.kdata.mobile.presentation
 		[Bindable] public var selectedDocument:Object;
 		[Bindable] public var docSelected:Document = new Document();
 		[Bindable] public var index:int = -1;
+		[Bindable] public var checkedDoc:Object = new Object();
 		
 		[MessageDispatcher] public var dispatchMessage:Function;
 		

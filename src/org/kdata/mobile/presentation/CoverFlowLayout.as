@@ -1,24 +1,17 @@
 package org.kdata.mobile.presentation
 {
 	import flash.events.Event;
-	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.geom.Matrix;
 	import flash.geom.Matrix3D;
-	import flash.geom.Vector3D;
 	import flash.utils.Timer;
-	
-	import flashx.textLayout.formats.WhiteSpaceCollapse;
 	
 	import mx.core.ILayoutElement;
 	import mx.core.IVisualElement;
 	import mx.core.UIComponent;
-	import mx.states.Transition;
 	
 	import spark.components.supportClasses.GroupBase;
-	import spark.events.IndexChangeEvent;
 	import spark.layouts.supportClasses.LayoutBase;
-	import spark.skins.spark.ScrollBarDownButtonSkin;
 	
 	[Event(name="loadComplete")]
 	public class CoverFlowLayout extends LayoutBase

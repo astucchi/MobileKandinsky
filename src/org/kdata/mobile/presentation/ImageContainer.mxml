@@ -11,8 +11,6 @@
 		<![CDATA[
 			import org.kdata.mobile.application.Config;
 			
-			import org.kdata.mobile.presentation.MainPresentationModel;
-			
 		[Bindable]
 		public var path:String;
 		

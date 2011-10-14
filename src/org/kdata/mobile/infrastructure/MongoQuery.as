@@ -1,10 +1,6 @@
 package org.kdata.mobile.infrastructure
 {
-	import flash.utils.ByteArray;
-	
 	import mx.collections.ArrayCollection;
-	import mx.events.ModuleEvent;
-	import mx.rpc.mxml.Concurrency;
 	
 	import org.db.mongo.Cursor;
 	import org.db.mongo.DB;
@@ -16,8 +12,6 @@ package org.kdata.mobile.infrastructure
 	import org.kdata.mobile.application.Config;
 	import org.kdata.mobile.application.MongoConfig;
 	import org.kdata.mobile.application.MongoEvent;
-	import org.serialization.bson.ObjectID;
-	import org.spicefactory.parsley.core.messaging.impl.MessageDispatcher;
 
 	public class MongoQuery
 	{

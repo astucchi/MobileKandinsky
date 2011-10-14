@@ -3,95 +3,47 @@
 		   xmlns:s="library://ns.adobe.com/flex/spark" 
 		   xmlns:mx="library://ns.adobe.com/flex/mx"
 		   xmlns:spicefactory="http://www.spicefactory.org/parsley/pimento"
-			xmlns:parsley="http://www.spicefactory.org/parsley">
+			xmlns:parsley="http://www.spicefactory.org/parsley"
+			>
 
 	<fx:Declarations>
 		<parsley:Configure/>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-			import flash.utils.getDefinitionByName;
-			import flash.utils.getQualifiedClassName;
 			
 			import mx.collections.ArrayCollection;
-			import mx.core.IFlexDisplayObject;
-			import mx.core.IUIComponent;
-			import mx.core.IVisualElement;
-			import mx.utils.object_proxy;
 			
 			import org.db.mongo.Document;
-			import org.kdata.mobile.application.Config;
-			import org.kdata.mobile.application.MongoEvent;
 			import org.kdata.mobile.presentation.LabelCheckBox;
-			import org.kdata.mobile.presentation.LabelCheckBoxSkin;
 			import org.kdata.mobile.presentation.MainPresentationModel;
 			
-			import spark.core.IGraphicElement;
 			[Inject] [Bindable]
 			public var model:MainPresentationModel;		
 	
 			private var checkElementIndex:ArrayCollection = new ArrayCollection();
 			
-/* 			
-		 	protected function getPictureByYear():void
-			{
-				if(lblYear.getStyle("color")==0)
-					lblYear.setStyle("color","red");
-				else
-					lblYear.setStyle("color","black");
-				getPictureBy();
-			}
-			
-			protected function getPictureByNature():void
-			{
-				if(lblNature.getStyle("color")==0)
-					lblNature.setStyle("color","red");
-				else
-					lblNature.setStyle("color","black");
-				getPictureBy();
-			} 
-			
-			private function getPictureBy():void
-			{
-				var doc:Document = new Document();
-
-				if(lblNature.getStyle("color")!=0)
-					doc.put("natura",model.selectedDocument.natura);
-				
-				if(lblYear.getStyle("color")!=0)
-					doc.put("anno",model.selectedDocument.anno);
-				
-				model.docSelected=doc;
-				model.load();
-			} */
-			
 			private function filter(e:MouseEvent = null):void
 			{
 				var doc:Document = new Document();
 
-				
 				for(var i:int = 0 ; i<checkElementIndex.length ; i++)
 				{
 					var chekelement:LabelCheckBox = vgroup.getElementAt(checkElementIndex[i]) as LabelCheckBox;
 					if (chekelement.selected)
+					{
 						doc.put(chekelement.id+".text",chekelement.data.text);
+						model.checkedDoc[chekelement.id.toString()]=true;
+					}
+					else
+						model.checkedDoc[chekelement.id.toString()]=false;
 				}
 				
-				
-				
-				
-/* 				if(cekNature.selected)
-					doc.put("natura",cekNature.label);
-				if(cekYear.selected)
-					doc.put("anno",cekYear.label);
-				if(cekCity.selected)
-					doc.put("citta",cekCity.label); */
 				model.docSelected=doc;
 				model.load();
 			}
 			
-			public function dataChange():void
+			[MessageHandler] public function dataChange(e:Event = null):void
 			{
 				vgroup.removeAllElements();
 				var i:int=0;
@@ -103,47 +55,19 @@
 							var element:LabelCheckBox= new LabelCheckBox();
 							element.addEventListener(MouseEvent.CLICK,filter);
 							element.data = obj[o];
+							element.selected=model.checkedDoc[element.id.toString()]
 							vgroup.addElement(element);
 							checkElementIndex.addItem(i);
 							i++;
 					}
-					
-					
 				}
-				
 			}
-			
-			
 		]]>
 	</fx:Script>
-	<s:VGroup id="vgroup">
-		<s:Label text="{model.selectedDocument.file}" />
-		<s:Label text="{model.selectedDocument.titolo}" />
-		<s:CheckBox id="cekNature"  label="{model.selectedDocument.natura}"  click="filter()"/>
-		<s:CheckBox id="cekYear"  label="{model.selectedDocument.anno}"  click="filter()"/>
-		<s:CheckBox id="cekCity"  label="{model.selectedDocument.citta}" click="filter()"/>
-		
-		
-
-		
-		<!--
-		<s:Label id="lblYear" text="{model.selectedDocument.anno}" fontSize="24" color="black"  click="getPictureByYear()"/>
-		<s:Label text="{model.selectedDocument.citta}" fontSize="24" />
-		<s:Label id="lblNature" text="{model.selectedDocument.natura}" fontSize="24" color="black" click="getPictureByNature()"/>
-		<s:Label text="{model.selectedDocument.production}" fontSize="24" />
-		<s:Label text="{model.selectedDocument.year2}" fontSize="24" />
-		<s:Label text="{model.selectedDocument.city2}" fontSize="24" />
-		<s:Label text="{model.selectedDocument.country2}" fontSize="24" />
-		<s:Label text="{model.selectedDocument.production2}" fontSize="24" />
-		<s:Label text="{model.selectedDocument.selection_by}" fontSize="24" />
-		<s:Label text="{model.selectedDocument.web_ref}" fontSize="24" />
-		<s:Label text="{model.selectedDocument.subnature}" fontSize="24" />
-		<s:Label text="{model.selectedDocument.dimensioni}" fontSize="24" />
-		<s:Label text="{model.selectedDocument.collocazione}" fontSize="24" />
-		<s:Label text="{model.selectedDocument.author}" fontSize="24" />-->
-	</s:VGroup>	
-
 	
-
+	
+	<s:VGroup id="vgroup">
+	</s:VGroup>	
+	
 	
 </s:Group>
