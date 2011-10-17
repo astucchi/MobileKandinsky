@@ -10,13 +10,13 @@
 		<parsley:Configure/>
 		<fx:Component id="img">	
 			<s:ItemRenderer>
-				<s:Image source="{Config.IMAGEPATH}{data.file}" width="150" height="150" toolTip="/media/img/tn_{data.file}" >
+				<presentation:ImageContainer path="{Config.IMAGEPATH}{data.file}" width="150" height="150" toolTip="/media/img/tn_{data.file}">
 					<fx:Script>
 						<![CDATA[
 							import org.kdata.mobile.application.Config;
 						]]>
 					</fx:Script>
-				</s:Image>
+				</presentation:ImageContainer>
 			</s:ItemRenderer>
 
 		</fx:Component>
@@ -67,7 +67,7 @@
 								changeIndex="changeIndex_handler()"
 								width="30%" height="100%"/>
 		<s:VGroup width="70%" height="100%">
-			<presentation:ImageContainer width="100%" height="100%"/>
+			<presentation:ImageContainer width="100%" height="100%" path="{Config.IMAGEPATH}{model.selectedDocument.file}"/>
 			<presentation:DetailsView id="details" width="100%" height="100%"/>
 		</s:VGroup>
 		
