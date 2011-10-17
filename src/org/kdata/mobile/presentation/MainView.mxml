@@ -3,7 +3,6 @@
 		   xmlns:s="library://ns.adobe.com/flex/spark" 
 		   xmlns:mx="library://ns.adobe.com/flex/mx" 
 		   xmlns:presentation="org.kdata.mobile.presentation.*" 
-		   xmlns:coverflow="org.kdata.mobile.coverflow.*"
 		   xmlns:parsley="http://www.spicefactory.org/parsley" 
 		   width="100%" height="100%">
 
@@ -69,7 +68,7 @@
 								width="30%" height="100%"/>
 		<s:VGroup width="70%" height="100%">
 			<presentation:ImageContainer width="100%" height="100%"/>
-			<coverflow:Details_OLD id="details" width="100%" height="100%"/>
+			<presentation:DetailsView id="details" width="100%" height="100%"/>
 		</s:VGroup>
 		
 <!--		<s:VGroup width="30%" height="100%">

@@ -15,8 +15,6 @@
 			import mx.collections.ArrayCollection;
 			
 			import org.db.mongo.Document;
-			import org.kdata.mobile.presentation.LabelCheckBox;
-			import org.kdata.mobile.presentation.MainPresentationModel;
 			
 			[Inject] [Bindable]
 			public var model:MainPresentationModel;		
