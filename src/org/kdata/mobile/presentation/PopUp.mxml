@@ -17,7 +17,7 @@
 			{
 				_title = title;
 				_text  = text;
-				PopUpManager.addPopUp(this,FlexGlobals.topLevelApplication.tabbedNavigator.selectedNavigator.activeView);
+				PopUpManager.addPopUp(this,FlexGlobals.topLevelApplication.owner);
 				PopUpManager.centerPopUp(this);
 				
 			}
@@ -40,7 +40,7 @@
 					<s:SolidColorStroke color="0x5b5b5b" weight="2"/>
 				</s:stroke>
 			</s:Line>
-			<s:Label width="100%" color="white" text="{_text}"  left="5"/>
+			<s:Label width="100%" text="{_text}"  left="5"/>
 		</s:VGroup>
 		<s:Button x="0" y="0" height="34" label="Close" click="close()" bottom="5" right="5"/>
 	</s:BorderContainer>

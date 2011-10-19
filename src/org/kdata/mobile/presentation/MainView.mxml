@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		   xmlns:s="library://ns.adobe.com/flex/spark" 
-		   xmlns:mx="library://ns.adobe.com/flex/mx" 
-		   xmlns:presentation="org.kdata.mobile.presentation.*" 
-		   xmlns:parsley="http://www.spicefactory.org/parsley" 
-		   width="100%" height="100%">
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:presentation="org.kdata.mobile.presentation.*"
+		 xmlns:parsley="http://www.spicefactory.org/parsley"
+		 width="100%" height="100%">
 
 	<fx:Declarations>
 		<parsley:Configure/>
@@ -21,6 +21,7 @@
 
 		</fx:Component>
 	</fx:Declarations>
+	
 	<fx:Script>
 		<![CDATA[			
 			import org.kdata.mobile.presentation.MainPresentationModel;
@@ -48,10 +49,7 @@
 							var _skip:int=coverFlow.list.selectedItem.index-(Math.floor(Config.LIMIT/2));
 							if(_skip > 0 && _skip < Config.TOTALE )
 								{
-								//coverFlow.currentState="Loading";
- 								coverFlow.list.visible=false;
-//								coverFlow.spinner.visible=true;
-								coverFlow.isLoading=true; 
+ 								coverFlow.loading();
 								model.load(_skip);
 								}
 					}
@@ -59,21 +57,21 @@
 			
 		]]>
 	</fx:Script>
-	
-	<s:HGroup width="100%" height="100%" id="group">		
-		
+
+	<s:HGroup width="100%" height="100%" id="group"  >		
 		<presentation:CoverFlow id="coverFlow" itemRenderer="{img}" 
 								dataProvider="{model.documents}"
 								changeIndex="changeIndex_handler()"
 								width="30%" height="100%"/>
-		<s:VGroup width="70%" height="100%">
-			<presentation:ImageContainer width="100%" height="100%" path="{Config.IMAGEPATH}{model.selectedDocument.file}"/>
-			<presentation:DetailsView id="details" width="100%" height="100%"/>
+		<s:VGroup width="70%" height="100%" >
+			
+			<s:Label width="100%" height="15%" maxHeight="60" 
+					fontSize="40" textAlign="center" 
+					paddingBottom="10" paddingLeft="10" paddingTop="10" 
+					text="{model.selectedDocument.titolo.text}" />
+			<presentation:ImageContainer  width="100%" height="100%" path="{Config.IMAGEPATH}{model.selectedDocument.file}"/>
+			<presentation:DetailsView id="details" width="100%" height="100%" filterReload="coverFlow.loading()"/>
 		</s:VGroup>
-		
-<!--		<s:VGroup width="30%" height="100%">
-						
-		</s:VGroup>-->
 	</s:HGroup>
 	
 </s:Group>

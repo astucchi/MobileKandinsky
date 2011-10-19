@@ -3,18 +3,23 @@
 		   xmlns:s="library://ns.adobe.com/flex/spark" 
 		   xmlns:mx="library://ns.adobe.com/flex/mx"
 		   xmlns:spicefactory="http://www.spicefactory.org/parsley/pimento"
-			xmlns:parsley="http://www.spicefactory.org/parsley"
+			xmlns:parsley="http://www.spicefactory.org/parsley" 
 			>
 
 	<fx:Declarations>
 		<parsley:Configure/>
 	</fx:Declarations>
+	<fx:Metadata>
+		[Event(name="filterReload")]
+	</fx:Metadata>
 	<fx:Script>
 		<![CDATA[
 			
 			import mx.collections.ArrayCollection;
 			
 			import org.db.mongo.Document;
+			
+			
 			
 			[Inject] [Bindable]
 			public var model:MainPresentationModel;		
@@ -38,6 +43,7 @@
 				}
 				
 				model.docSelected=doc;
+				dispatchEvent(new Event("filterReload"));
 				model.load();
 			}
 			
@@ -50,13 +56,16 @@
 				{
 					if(getQualifiedClassName(obj[o]) == getQualifiedClassName(Object))
 					{
-							var element:LabelCheckBox= new LabelCheckBox();
-							element.addEventListener(MouseEvent.CLICK,filter);
-							element.data = obj[o];
-							element.selected=model.checkedDoc[element.id.toString()]
-							vgroup.addElement(element);
-							checkElementIndex.addItem(i);
-							i++;
+							if(o!="titolo")
+							{
+								var element:LabelCheckBox= new LabelCheckBox();
+								element.addEventListener(MouseEvent.CLICK,filter);
+								element.data = obj[o];
+								element.selected=model.checkedDoc[element.id.toString()]
+								vgroup.addElement(element);
+								checkElementIndex.addItem(i);
+								i++;
+							}
 					}
 				}
 			}

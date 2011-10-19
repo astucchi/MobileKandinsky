@@ -10,17 +10,17 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import mx.events.FlexEvent;
 			
-			import org.kdata.mobile.application.Config;
 				
 			[Inject][Bindable] public var model:MainPresentationModel;
 			
 			private var _loader:Loader
 			private var _context:LoaderContext;
-			private var _path:String;					
+			private var _path:String;
+			private var countReload:int    = 0;
+			private var attemptsReload:int = 3;
 			
-			protected function httpStatusHandler(event:HTTPStatusEvent):void
+/* 			protected function httpStatusHandler(event:HTTPStatusEvent):void
 			{
 				switch(event.status)
 				{
@@ -29,12 +29,15 @@
 						
 					default:
 					{
+						_loader.contentLoaderInfo.removeEventListener(Event.COMPLETE,onImgLoaded);
+						_loader.contentLoaderInfo.removeEventListener(IOErrorEvent.IO_ERROR,onImgLoadError);
+						_loader.contentLoaderInfo.removeEventListener(HTTPStatusEvent.HTTP_STATUS,httpStatusHandler);
 						var popup:PopUp = new PopUp();
 						popup.show("Error","Loading Image Fail");
 						break;
 					}
 				}
-			}
+			} */
 
 			[Bindable]
 			public function get path():String
@@ -63,7 +66,7 @@
 			{
 				_loader.contentLoaderInfo.addEventListener(Event.COMPLETE,onImgLoaded);
 				_loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR,onImgLoadError);
-				_loader.contentLoaderInfo.addEventListener(HTTPStatusEvent.HTTP_STATUS,httpStatusHandler);
+				//_loader.contentLoaderInfo.addEventListener(HTTPStatusEvent.HTTP_STATUS,httpStatusHandler);
 				_loader.load(new URLRequest(path),_context);
 			}
 
@@ -71,7 +74,7 @@
 			{
 				_loader.contentLoaderInfo.removeEventListener(Event.COMPLETE,onImgLoaded);
 				_loader.contentLoaderInfo.removeEventListener(IOErrorEvent.IO_ERROR,onImgLoadError);
-				_loader.contentLoaderInfo.removeEventListener(HTTPStatusEvent.HTTP_STATUS,httpStatusHandler);
+				//_loader.contentLoaderInfo.removeEventListener(HTTPStatusEvent.HTTP_STATUS,httpStatusHandler);
 				img.source=_loader.content;
 				spinner.stop();
 				spinner.visible=false;
@@ -80,12 +83,23 @@
 			{
 				_loader.contentLoaderInfo.removeEventListener(Event.COMPLETE,onImgLoaded);
 				_loader.contentLoaderInfo.removeEventListener(IOErrorEvent.IO_ERROR,onImgLoadError);
-				_loader.contentLoaderInfo.removeEventListener(HTTPStatusEvent.HTTP_STATUS,httpStatusHandler);
-				load()
+				//_loader.contentLoaderInfo.removeEventListener(HTTPStatusEvent.HTTP_STATUS,httpStatusHandler);
+				if(countReload<attemptsReload)
+				{
+					load();
+					countReload++;
+				}
+				else
+				{
+					var popup:PopUp = new PopUp();
+					popup.show("Error","Loading Image Fail");
+				}
 			}
 			
 		]]>
 	</fx:Script>
-	<s:Image width="100%" height="100%" id="img"/>
-	<presentation:LoadingSpinner id="spinner" verticalCenter="0" horizontalCenter="0" />
+		<s:Image width="100%" height="100%" id="img"/>
+		<presentation:LoadingSpinner id="spinner" verticalCenter="0" horizontalCenter="0" 
+									 tickColor="white" size="150" numTicks="30" tickWidth="18" />
+
 </s:Group>

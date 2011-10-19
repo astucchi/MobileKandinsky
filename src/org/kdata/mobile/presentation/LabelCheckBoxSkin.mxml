@@ -28,10 +28,10 @@
 	
 	<s:Rect x="1" y="1" radiusX="20" height="100%" width="100%">
 		<s:fill>
-			<s:SolidColor color="#FFFFFF"/>
+			<s:SolidColor color="#000000"/>
 		</s:fill>
 		<s:stroke>
-			<s:SolidColorStroke caps="none" color="#00FF00" joints="miter" miterLimit="4" weight="2"/>
+			<s:SolidColorStroke caps="none" color="#00FF00" joints="miter" miterLimit="4" weight="1"/>
 		</s:stroke>
 	</s:Rect>
 	<s:HGroup verticalAlign="middle">

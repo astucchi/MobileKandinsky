@@ -17,7 +17,7 @@ package org.kdata.mobile.presentation
 		[Bindable] public var docSelected:Document = new Document();
 		[Bindable] public var index:int = -1;
 		[Bindable] public var checkedDoc:Object = new Object();
-		
+		[Bindable] public var isLoading:Boolean = true;
 		[MessageDispatcher] public var dispatchMessage:Function;
 		
 		public function getInitialImgList():void
@@ -34,6 +34,7 @@ package org.kdata.mobile.presentation
 		
 		public function load(skip:int=0):void
 		{
+			isLoading=true;
 			var params:Object = new Object();
 			params.indexToSkip = skip;
 			params.doc = docSelected;

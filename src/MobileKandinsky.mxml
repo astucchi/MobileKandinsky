@@ -6,6 +6,7 @@
 			   applicationDPI="160"
 			   creationComplete="init()" 
 			   >
+	<fx:Style source="MobileKandinsky.css"/>
 	<fx:Script>
 		<![CDATA[
 			import org.kdata.mobile.KandinskyConfig;
@@ -14,8 +15,12 @@
 	<fx:Declarations>
 		<parsley:ContextBuilder config="{KandinskyConfig}"/>
 	</fx:Declarations>
-
 	
-	<presentation:MainView />
+	<s:Rect width="100%" height="100%" >
+		<s:fill>
+			<s:SolidColor color="black"/>
+		</s:fill>
+	</s:Rect>
 	
+	<presentation:MainView />	
 </s:Application>

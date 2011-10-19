@@ -1,0 +1,14 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace presentation "org.kdata.mobile.presentation.*";
+
+
+global
+{
+	content-background-color: #000000;
+}
+s|Label
+{
+	fontFamily : arial;
+	color 	   : white;
+}
