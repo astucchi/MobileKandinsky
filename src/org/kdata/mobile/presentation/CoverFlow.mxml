@@ -181,7 +181,7 @@
 	</s:List>
 	
 	<s:VGroup verticalAlign="middle" horizontalAlign="center" id="spinner" width="100%" height="100%" visible="true">
-		<presentation:LoadingSpinner  tickColor="white" size="150" numTicks="30" tickWidth="18"/>			
+		<presentation:LoadingSpinner  size="150" numTicks="30" tickWidth="18"/>			
 	</s:VGroup>
 	<!--	
 	<s:VSlider id="idxSlider" minimum="0" maximum="{list.dataProvider.length-1}"  left="5" bottom="20"

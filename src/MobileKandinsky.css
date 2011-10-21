@@ -12,3 +12,7 @@ s|Label
 	fontFamily : arial;
 	color 	   : yellow;
 }
+presentation|LoadingSpinner
+{
+	tickColor : green;
+}

@@ -101,6 +101,6 @@
 	</fx:Script>
 		<s:Image width="100%" height="100%" id="img"/>
 		<presentation:LoadingSpinner id="spinner" verticalCenter="0" horizontalCenter="0" 
-									 tickColor="blue" size="50" numTicks="20" tickWidth="10" />
+									 size="50" numTicks="20" tickWidth="10" />
 
 </s:Group>
