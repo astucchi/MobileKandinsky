@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:CheckBox xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					  xmlns:s="library://ns.adobe.com/flex/spark" 
+					  xmlns:parsley="http://www.spicefactory.org/parsley"
+					  click="click_Handler(event)">
+	<fx:Declarations>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import org.kdata.mobile.events.DetailsEvent;
+			import org.spicefactory.parsley.core.messaging.impl.MessageDispatcher;
+			private var _data:Object;
+			
+			[MessageDispatcher] public var dispatchMessage:Function;
+			
+			public function get data():Object
+			{
+				return _data;
+			}
+			
+			public function set data(value:Object):void
+			{
+				_data = value;
+				enabled = (data.visible == "true" );
+				label = data.text;
+				id = data.label;
+				_data.cheked = selected
+			}
+			
+			protected function click_Handler(event:MouseEvent):void
+			{
+				_data.cheked = selected;
+				dispatchMessage(new DetailsEvent(DetailsEvent.FILTER_CHANGE));
+			}
+			
+		]]>
+	</fx:Script>
+
+</s:CheckBox>

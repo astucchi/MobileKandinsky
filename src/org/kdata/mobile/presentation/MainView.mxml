@@ -24,6 +24,7 @@
 	
 	<fx:Script>
 		<![CDATA[			
+			import org.kdata.mobile.events.DetailsEvent;
 			import org.kdata.mobile.presentation.MainPresentationModel;
 			import org.kdata.mobile.application.Config;
 			
@@ -40,7 +41,7 @@
 			private function changeIndex_handler():void
 			{
 				model.selectedDocument=coverFlow.list.selectedItem;
-				details.dataChange();
+				details.filter(new DetailsEvent(DetailsEvent.DETAILS_CHANGE));
 				//model.getDetails(coverFlow.list.selectedItem._id);
 				if(coverFlow.list.dataProvider.length>=Config.LIMIT)
 				if((coverFlow.list.selectedIndex < Config.SKIP4LOAD  ) || (coverFlow.list.selectedIndex > Config.LIMIT-Config.SKIP4LOAD ))

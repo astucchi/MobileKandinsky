@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark">
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("org.kdata.mobile.presentation.DetailsView")]
+	</fx:Metadata>
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="disabled" />
+		<s:State name="normal" />
+	</s:states>
+	
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="red"/>
+		</s:fill>
+	</s:Rect>
+	
+	<!-- SkinParts
+	name=contentGroup, type=spark.components.Group, required=false
+	-->
+	<s:Group id="contentGroup"  width="100%" height="100%" />
+</s:Skin>

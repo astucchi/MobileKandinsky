@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		   xmlns:s="library://ns.adobe.com/flex/spark" 
 		   xmlns:mx="library://ns.adobe.com/flex/mx"
 		   xmlns:spicefactory="http://www.spicefactory.org/parsley/pimento"
 			xmlns:parsley="http://www.spicefactory.org/parsley" 
-			>
+			 xmlns:presentation="org.kdata.mobile.presentation.*"
+			 skinClass="{DetailsViewSkin}">
 
 	<fx:Declarations>
 		<parsley:Configure/>
@@ -14,25 +15,31 @@
 	</fx:Metadata>
 	<fx:Script>
 		<![CDATA[
-			
 			import mx.collections.ArrayCollection;
 			
 			import org.db.mongo.Document;
+			import org.kdata.mobile.events.DetailsEvent;
+			import org.kdata.mobile.presentation.skin.DetailsViewSkin;
+			
+			import spark.components.List;
 			
 			
 			
 			[Inject] [Bindable]
 			public var model:MainPresentationModel;		
-	
+			
+			[Bindable]
+			private var dataList:ArrayCollection = new ArrayCollection();
+			
 			private var checkElementIndex:ArrayCollection = new ArrayCollection();
 			
-			private function filter(e:MouseEvent = null):void
+/* 			private function filter(e:MouseEvent = null):void
 			{
 				var doc:Document = new Document();
 
 				for(var i:int = 0 ; i<checkElementIndex.length ; i++)
 				{
-					var chekelement:LabelCheckBox = vgroup.getElementAt(checkElementIndex[i]) as LabelCheckBox;
+					var chekelement:LabelCheckBox1 = vgroup.getElementAt(checkElementIndex[i]) as LabelCheckBox1;
 					if (chekelement.selected)
 					{
 						doc.put(chekelement.id+".text",chekelement.data.text);
@@ -45,9 +52,9 @@
 				model.docSelected=doc;
 				dispatchEvent(new Event("filterReload"));
 				model.load();
-			}
+			} */
 			
-			[MessageHandler] public function dataChange(e:Event = null):void
+/* 			[MessageHandler] public function dataChange(e:Event = null):void
 			{
 				vgroup.removeAllElements();
 				var i:int=0;
@@ -56,25 +63,53 @@
 				{
 					if(getQualifiedClassName(obj[o]) == getQualifiedClassName(Object))
 					{
-							if(o!="titolo")
+						if(o!="titolo")
+						{
+							var element:LabelCheckBox1= new LabelCheckBox1();
+							element.addEventListener(MouseEvent.CLICK,filter);
+							element.data = obj[o];
+							element.selected=model.checkedDoc[element.id.toString()];
+							vgroup.addElement(element);
+							checkElementIndex.addItem(i);
+							i++;
+						}
+					}
+				}
+			} */
+			
+			[MessageHandler] public function filter(e:DetailsEvent):void
+			{
+				switch(e.type)
+				{
+					case DetailsEvent.DETAILS_CHANGE:
+					{
+						dataList.removeAll();
+						for each(var obj:Object in model.selectedDocument as Object)
+						{
+							if(getQualifiedClassName(obj) == getQualifiedClassName(Object))
 							{
-								var element:LabelCheckBox= new LabelCheckBox();
-								element.addEventListener(MouseEvent.CLICK,filter);
-								element.data = obj[o];
-								element.selected=model.checkedDoc[element.id.toString()]
-								vgroup.addElement(element);
-								checkElementIndex.addItem(i);
-								i++;
+								if(obj.label!="titolo")
+									dataList.addItem(obj);
 							}
+						}
+						break;
+					}
+					
+					case DetailsEvent.FILTER_CHANGE:
+					{
+						
+						break;
+					}
+						
+					default:
+					{
+						break;
 					}
 				}
 			}
 		]]>
 	</fx:Script>
+
+	<presentation:FilterView  dataProvider="{dataList}"/>
 	
-	
-	<s:VGroup id="vgroup">
-	</s:VGroup>	
-	
-	
-</s:Group>
+</s:SkinnableContainer>

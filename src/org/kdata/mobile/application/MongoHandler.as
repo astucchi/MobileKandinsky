@@ -4,6 +4,7 @@ package org.kdata.mobile.application
 	
 	import mx.utils.object_proxy;
 	
+	import org.kdata.mobile.events.DetailsEvent;
 	import org.kdata.mobile.infrastructure.MongoQuery;
 	import org.kdata.mobile.presentation.CoverFlow;
 	import org.kdata.mobile.presentation.MainPresentationModel;
@@ -47,7 +48,7 @@ package org.kdata.mobile.application
 					else
 					{
 						model.selectedDocument=model.documents.getItemAt(Math.floor(Config.LIMIT/2));
-						dispatchMessage(new Event("initComplete"));
+						dispatchMessage(new DetailsEvent(DetailsEvent.DETAILS_CHANGE));
 					}
 						
 					break;

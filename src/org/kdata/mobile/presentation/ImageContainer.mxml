@@ -47,9 +47,9 @@
 
 			public function set path(value:String):void
 			{
-				if(_path==value)
+ 				if(_path==value)
 					return;
-				
+				 
 				spinner.visible=true;
 				spinner.play();
 				
@@ -76,6 +76,7 @@
 				_loader.contentLoaderInfo.removeEventListener(IOErrorEvent.IO_ERROR,onImgLoadError);
 				//_loader.contentLoaderInfo.removeEventListener(HTTPStatusEvent.HTTP_STATUS,httpStatusHandler);
 				img.source=_loader.content;
+				trace("LOADED");
 				spinner.stop();
 				spinner.visible=false;
 			}
@@ -100,6 +101,6 @@
 	</fx:Script>
 		<s:Image width="100%" height="100%" id="img"/>
 		<presentation:LoadingSpinner id="spinner" verticalCenter="0" horizontalCenter="0" 
-									 tickColor="white" size="150" numTicks="30" tickWidth="18" />
+									 tickColor="blue" size="50" numTicks="20" tickWidth="10" />
 
 </s:Group>
