@@ -4,8 +4,8 @@
 		   xmlns:mx="library://ns.adobe.com/flex/mx"
 		   xmlns:spicefactory="http://www.spicefactory.org/parsley/pimento"
 			xmlns:parsley="http://www.spicefactory.org/parsley" 
-			 xmlns:presentation="org.kdata.mobile.presentation.*"
-			 skinClass="{DetailsViewSkin}">
+			xmlns:presentation="org.kdata.mobile.presentation.*"
+			skinClass="{DetailsViewSkin}" >
 
 	<fx:Declarations>
 		<parsley:Configure/>
@@ -20,7 +20,6 @@
 			import org.db.mongo.Document;
 			import org.kdata.mobile.events.DetailsEvent;
 			import org.kdata.mobile.presentation.skin.DetailsViewSkin;
-			
 			
 			
 			[Inject] [Bindable]

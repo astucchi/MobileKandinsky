@@ -4,19 +4,21 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:presentation="org.kdata.mobile.presentation.*"
 		 xmlns:parsley="http://www.spicefactory.org/parsley"
-		 width="100%" height="100%">
+		 width="100%" height="100%" xmlns:component="org.kdata.mobile.presentation.component.*">
 
 	<fx:Declarations>
 		<parsley:Configure/>
 		<fx:Component id="img">	
 			<s:ItemRenderer>
-				<presentation:ImageContainer path="{Config.IMAGEPATH}{data.file}" width="150" height="150" toolTip="/media/img/tn_{data.file}">
-					<fx:Script>
-						<![CDATA[
-							import org.kdata.mobile.application.Config;
-						]]>
-					</fx:Script>
-				</presentation:ImageContainer>
+				<fx:Script>
+					<![CDATA[
+						import org.kdata.mobile.application.Config;
+						import org.kdata.mobile.presentation.skin.LoadImageSkin;
+					]]>
+				</fx:Script>
+				<s:Image width="150" height="150" source="{Config.IMAGEPATH}{data.file}" skinClass="{LoadImageSkin}">
+					
+				</s:Image>
 			</s:ItemRenderer>
 
 		</fx:Component>
@@ -70,7 +72,7 @@
 					fontSize="40" textAlign="center" 
 					paddingBottom="10" paddingLeft="10" paddingTop="10" 
 					text="{model.selectedDocument.titolo.text}" />
-			<presentation:ImageContainer  width="100%" height="100%" path="{Config.IMAGEPATH}{model.selectedDocument.file}"/>
+			<presentation:ImageView />
 			<presentation:DetailsView id="details" width="100%" height="100%" filterReload="coverFlow.loading()"/>
 		</s:VGroup>
 	</s:HGroup>
