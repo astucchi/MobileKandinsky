@@ -26,12 +26,12 @@
 				enabled = (data.visible == "true" );
 				label = data.text;
 				id = data.label;
-				_data.cheked = selected
+				_data.checked = selected
 			}
 			
 			protected function click_Handler(event:MouseEvent):void
 			{
-				_data.cheked = selected;
+				_data.checked = selected;
 				dispatchMessage(new DetailsEvent(DetailsEvent.FILTER_CHANGE));
 			}
 			

@@ -21,8 +21,6 @@
 			import org.kdata.mobile.events.DetailsEvent;
 			import org.kdata.mobile.presentation.skin.DetailsViewSkin;
 			
-			import spark.components.List;
-			
 			
 			
 			[Inject] [Bindable]
@@ -30,53 +28,7 @@
 			
 			[Bindable]
 			private var dataList:ArrayCollection = new ArrayCollection();
-			
-			private var checkElementIndex:ArrayCollection = new ArrayCollection();
-			
-/* 			private function filter(e:MouseEvent = null):void
-			{
-				var doc:Document = new Document();
-
-				for(var i:int = 0 ; i<checkElementIndex.length ; i++)
-				{
-					var chekelement:LabelCheckBox1 = vgroup.getElementAt(checkElementIndex[i]) as LabelCheckBox1;
-					if (chekelement.selected)
-					{
-						doc.put(chekelement.id+".text",chekelement.data.text);
-						model.checkedDoc[chekelement.id.toString()]=true;
-					}
-					else
-						model.checkedDoc[chekelement.id.toString()]=false;
-				}
-				
-				model.docSelected=doc;
-				dispatchEvent(new Event("filterReload"));
-				model.load();
-			} */
-			
-/* 			[MessageHandler] public function dataChange(e:Event = null):void
-			{
-				vgroup.removeAllElements();
-				var i:int=0;
-				var obj:Object=model.selectedDocument;
-				for(var o:String in obj)
-				{
-					if(getQualifiedClassName(obj[o]) == getQualifiedClassName(Object))
-					{
-						if(o!="titolo")
-						{
-							var element:LabelCheckBox1= new LabelCheckBox1();
-							element.addEventListener(MouseEvent.CLICK,filter);
-							element.data = obj[o];
-							element.selected=model.checkedDoc[element.id.toString()];
-							vgroup.addElement(element);
-							checkElementIndex.addItem(i);
-							i++;
-						}
-					}
-				}
-			} */
-			
+						
 			[MessageHandler] public function filter(e:DetailsEvent):void
 			{
 				switch(e.type)
@@ -97,6 +49,23 @@
 					
 					case DetailsEvent.FILTER_CHANGE:
 					{
+						var doc:Document = new Document();
+						
+						for each(obj in model.selectedDocument as Object)
+						{
+							if(getQualifiedClassName(obj) == getQualifiedClassName(Object))
+							{
+								if(obj.visible == true || obj.checked == true)
+								{
+									doc.put(obj.label + ".text" , obj.text)
+								}
+							}
+
+						}
+						model.docSelected=doc;
+						dispatchEvent(new Event("filterReload"));
+						model.load();
+						break;
 						
 						break;
 					}
