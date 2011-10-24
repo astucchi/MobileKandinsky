@@ -2,9 +2,11 @@ package org.kdata.mobile.presentation.component {
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
 	
+	import mx.core.FlexGlobals;
 	import mx.core.UIComponent;
 	import mx.events.FlexEvent;
 	import mx.styles.CSSStyleDeclaration;
+	import mx.styles.IStyleManager2;
 	import mx.styles.StyleManager;
 	
 	
@@ -121,12 +123,13 @@ package org.kdata.mobile.presentation.component {
 		 
 		 
 		private static function classConstruct():Boolean {
-			if (!StyleManager.getStyleDeclaration("Spinner")) {
+			var styleManager:IStyleManager2 = FlexGlobals.topLevelApplication.styleManager;
+			if (!styleManager.getStyleDeclaration("Spinner")) {
 				// If there is no CSS definition for StyledRectangle, 
 				// then create one and set the default value.
 				var newStyleDeclaration:CSSStyleDeclaration = new CSSStyleDeclaration();
 				newStyleDeclaration.setStyle(STYLE_TICK_COLOR, 0x000000);
-				StyleManager.setStyleDeclaration("Spinner", newStyleDeclaration, true);
+				styleManager.setStyleDeclaration("Spinner", newStyleDeclaration, true);
 			}
 			return true;
 		}
