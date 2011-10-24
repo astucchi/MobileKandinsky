@@ -5,7 +5,7 @@
 		 creationComplete="init()" width="100%" height="100%" 
 		 xmlns:parsley="http://www.spicefactory.org/parsley" 
 		 xmlns:presentation="org.kdata.mobile.presentation.*" 
-		 xmlns:binding="org.spicefactory.parsley.binding.*"
+		 xmlns:binding="org.spicefactory.parsley.binding.*" xmlns:component="org.kdata.mobile.presentation.component.*"
 		 >
 	<s:states>
 		<s:State name="complete"/>
@@ -26,6 +26,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import org.kdata.mobile.presentation.MainPresentationModel;
 			import mx.collections.ArrayCollection;
 			
 			import spark.events.IndexChangeEvent;
@@ -176,12 +177,12 @@
 	<s:List id="list" change="listChangeIndex(event)"  height="100%" width="100%"
 			itemRenderer="{_itemRenderer}" selectedIndex="{model.index}" visible="false" verticalScrollPolicy="off">
 		<s:layout>
-			<presentation:CoverFlowLayout id="CFLayout" index="{model.index}" loadComplete="loadComplete()" verticalScrollPosition="0"/>
+			<component:CoverFlowLayout id="CFLayout" index="{model.index}" loadComplete="loadComplete()" verticalScrollPosition="0"/>
 		</s:layout>
 	</s:List>
 	
 	<s:VGroup verticalAlign="middle" horizontalAlign="center" id="spinner" width="100%" height="100%" visible="true">
-		<presentation:LoadingSpinner  size="150" numTicks="30" tickWidth="18"/>			
+		<component:LoadingSpinner  size="150" numTicks="30" tickWidth="18"/>			
 	</s:VGroup>
 	<!--	
 	<s:VSlider id="idxSlider" minimum="0" maximum="{list.dataProvider.length-1}"  left="5" bottom="20"

@@ -4,7 +4,8 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:presentation="org.kdata.mobile.presentation.*"
 		 xmlns:parsley="http://www.spicefactory.org/parsley"
-		 width="100%" height="100%" xmlns:component="org.kdata.mobile.presentation.component.*">
+		 xmlns:component="org.kdata.mobile.presentation.component.*"
+		 width="100%" height="100%" >
 
 	<fx:Declarations>
 		<parsley:Configure/>
@@ -62,7 +63,7 @@
 	</fx:Script>
 
 	<s:HGroup width="100%" height="100%" id="group"  >		
-		<presentation:CoverFlow id="coverFlow" itemRenderer="{img}" 
+		<component:CoverFlow id="coverFlow" itemRenderer="{img}" 
 								dataProvider="{model.documents}"
 								changeIndex="changeIndex_handler()"
 								width="30%" height="100%"/>

@@ -1,6 +1,7 @@
 /* CSS file */
 @namespace s "library://ns.adobe.com/flex/spark";
 @namespace presentation "org.kdata.mobile.presentation.*";
+@namespace component "org.kdata.mobile.presentation.component.*";
 
 
 global
@@ -12,7 +13,7 @@ s|Label
 	fontFamily : arial;
 	color 	   : yellow;
 }
-presentation|LoadingSpinner
+component|LoadingSpinner
 {
 	tickColor : green;
 }

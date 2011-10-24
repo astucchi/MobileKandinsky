@@ -6,7 +6,7 @@ package org.kdata.mobile.application
 	
 	import org.kdata.mobile.events.DetailsEvent;
 	import org.kdata.mobile.infrastructure.MongoQuery;
-	import org.kdata.mobile.presentation.CoverFlow;
+	import org.kdata.mobile.presentation.component.CoverFlow;
 	import org.kdata.mobile.presentation.MainPresentationModel;
 	import org.serialization.bson.ObjectID;
 
