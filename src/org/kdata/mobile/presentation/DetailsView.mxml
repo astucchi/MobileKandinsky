@@ -21,6 +21,7 @@
 			import org.kdata.mobile.events.DetailsEvent;
 			import org.kdata.mobile.presentation.skin.DetailsViewSkin;
 			
+			public static const FILTER_RELOAD:String = "filterReload";
 			
 			[Inject] [Bindable]
 			public var model:MainPresentationModel;		
@@ -62,7 +63,7 @@
 
 						}
 						model.docSelected=doc;
-						dispatchEvent(new Event("filterReload"));
+						dispatchEvent(new Event(FILTER_RELOAD));
 						model.load();
 						break;
 						

@@ -9,7 +9,10 @@
 	<fx:Style source="MobileKandinsky.css"/>
 	<fx:Script>
 		<![CDATA[
+			import org.kdata.mobile.presentation.component.TitleLabel;
 			import org.kdata.mobile.KandinskyConfig;
+			
+			private var org_kdata_mobile_presentation_component_TitleLabel_obj:org.kdata.mobile.presentation.component.TitleLabel;
 		]]>
 	</fx:Script>
 	<fx:Declarations>
@@ -18,7 +21,7 @@
 	
 	<s:Rect width="100%" height="100%" >
 		<s:fill>
-			<s:SolidColor color="black"/>
+			<s:SolidColor color="#00FF00"/>
 		</s:fill>
 	</s:Rect>
 	
