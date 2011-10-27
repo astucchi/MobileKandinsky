@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					  xmlns:s="library://ns.adobe.com/flex/spark" 
+					  width="100%" height="100%" verticalCenter="0" horizontalCenter="0"
+					  xmlns:parsley="http://www.spicefactory.org/parsley" >
+	<fx:Script>
+		<![CDATA[
+			import org.kdata.mobile.application.Config;
+			import org.kdata.mobile.presentation.skin.LoadImageSkin;
+			
+			[Inject][Bindable]public var model:MainPresentationModel;
+			
+			public static const CLOSE_ZOOM:String = "CloseZoom";
+
+		]]>
+	</fx:Script>
+	<fx:Metadata>
+		[Event(name="CloseZoom")]
+	</fx:Metadata>
+	<fx:Declarations>
+		<parsley:Configure/>
+	</fx:Declarations>
+	
+
+	<s:Image width="100%" height="100%" verticalCenter="0" horizontalCenter="0"
+				 source="{Config.IMAGEPATH}{model.selectedDocument.file}" 
+				 skinClass="{LoadImageSkin}" click="dispatchEvent(new Event(CLOSE_ZOOM))" />
+
+
+</s:SkinnableContainer>

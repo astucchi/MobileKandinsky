@@ -5,7 +5,12 @@
 		 xmlns:presentation="org.kdata.mobile.presentation.*"
 		 xmlns:parsley="http://www.spicefactory.org/parsley"
 		 xmlns:component="org.kdata.mobile.presentation.component.*"
-		 width="100%" height="100%" >
+		 width="100%" height="100%" currentState="Default">
+	<s:states>
+		<s:State name="Default"/>
+		<s:State name="ImageZoom"/>
+	</s:states>
+
 
 	<fx:Declarations>
 		<parsley:Configure/>
@@ -17,7 +22,7 @@
 						import org.kdata.mobile.presentation.skin.LoadImageSkin;
 					]]>
 				</fx:Script>
-				<s:Image width="150" height="150" source="{Config.IMAGEPATH}{data.file}" skinClass="{LoadImageSkin}">
+				<s:Image width="150" height="150" source="{Config.TNIMAGEPATH}{data.file}" skinClass="{LoadImageSkin}">
 					
 				</s:Image>
 			</s:ItemRenderer>
@@ -27,6 +32,7 @@
 	
 	<fx:Script>
 		<![CDATA[			
+			import org.kdata.mobile.presentation.skin.ImageZoomViewSkin;
 			import org.kdata.mobile.presentation.skin.TitleLabelSkin;
 			import org.kdata.mobile.events.DetailsEvent;
 			import org.kdata.mobile.presentation.MainPresentationModel;
@@ -63,7 +69,7 @@
 		]]>
 	</fx:Script>
 
-	<s:HGroup width="100%" height="100%" id="group"   >		
+	<s:HGroup width="100%" height="100%" id="group"   >	
 		<component:CoverFlow id="coverFlow" itemRenderer="{img}" 
 								dataProvider="{model.documents}"
 								changeIndex="changeIndex_handler()"
@@ -74,9 +80,14 @@
 					fontSize="40" textAlign="center" 
 					paddingBottom="10" paddingLeft="10" paddingTop="10" 
 					text="{model.selectedDocument.titolo.text}" />-->
-			<presentation:ImageView />
+			<presentation:ImageView click="currentState='ImageZoom'" />
 			<presentation:DetailsView id="details" width="100%" height="100%" filterReload="coverFlow.loading()"/>
+			
 		</s:VGroup>
 	</s:HGroup>
-	
+
+	<presentation:ImageZoomView width="100%" height="100%" CloseZoom="currentState='Default'"
+								skinClass="{ImageZoomViewSkin}"
+								visible.Default="false"/>
+
 </s:Group>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:presentation="org.kdata.mobile.presentation.*" 
 		xmlns:component="org.kdata.mobile.presentation.component.*">
@@ -17,16 +17,23 @@
 		<s:State name="uninitialized" />
 	</s:states>
 	
-	<s:Rect width="100%" height="100%">
+	
+
+	
+	<!-- fill -->
+	<!--- Defines the appearance of the TextArea component's background. -->
+	<s:Rect id="background" left="1" right="1" top="1" bottom="1">
 		<s:fill>
-			<s:SolidColor color="#FFFF00"/>
+			<!--- Defines the background fill color. -->
+			<s:SolidColor id="bgFill" color="red" alpha="0" />
 		</s:fill>
 	</s:Rect>
+	
 
-	<fx:Script>
+
+	<fx:Script >
 		<![CDATA[
-			
-			
+		
 			override public function setCurrentState(stateName:String, playTransition:Boolean=true):void
 			{
 				switch(stateName)
@@ -70,4 +77,4 @@
 								 verticalCenter="0" horizontalCenter="0" 
 								 size="50" numTicks="20" tickWidth="10" 
 								 creationComplete="spinner.play()"/>
-</s:Skin>
+</s:SparkSkin>
