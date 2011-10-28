@@ -16,3 +16,12 @@ component|LoadingSpinner
 {
 	tickColor : green;
 }
+
+component|TouchCheckBox
+{
+	skinClass : ClassReference("components.TouchCheckboxSkin1")
+}
+s|SkinnableContainer
+{
+	skinClass : ClassReference("components.ScrollPanelSkin1")
+}

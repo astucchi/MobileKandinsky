@@ -12,9 +12,13 @@
 		<s:State name="normal" />
 	</s:states>
 	
-	<s:Rect width="100%" height="100%">
+	<s:Rect left="0" right="0" top="0" bottom="0" radiusX="26">
+		<s:stroke>
+			<s:SolidColorStroke caps="none" color="#000000" joints="miter" miterLimit="4"
+								weight="4"/>
+		</s:stroke>
 		<s:fill>
-			<s:SolidColor color="red"/>
+			<s:SolidColor color="#CCCCCC"/>
 		</s:fill>
 	</s:Rect>
 	

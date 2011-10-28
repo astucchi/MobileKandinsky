@@ -2,7 +2,8 @@
 <s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:presentation="org.kdata.mobile.presentation.*" 
-		xmlns:component="org.kdata.mobile.presentation.component.*">
+		xmlns:component="org.kdata.mobile.presentation.component.*"
+		>
 	<!-- host component -->
 	<fx:Metadata>
 		[HostComponent("spark.components.Image")]
@@ -22,11 +23,16 @@
 	
 	<!-- fill -->
 	<!--- Defines the appearance of the TextArea component's background. -->
-	<s:Rect id="background" left="1" right="1" top="1" bottom="1">
-		<s:fill>
+	<s:Rect id="background" left="0" right="0" top="0" bottom="0">
+		<s:fill >
 			<!--- Defines the background fill color. -->
 			<s:SolidColor id="bgFill" color="red" alpha="0" />
 		</s:fill>
+		<s:stroke >
+			<s:SolidColorStroke  
+				caps="none" color="#000000" joints="miter" miterLimit="4"
+								weight="4"/>
+		</s:stroke>
 	</s:Rect>
 	
 
@@ -71,7 +77,8 @@
 	-->
 <!--	<s:Range id="progressIndicator" width="100%" height="100%"/>
 -->
-	<s:BitmapImage id="imageDisplay" width="100%" height="100%"/>
+	<s:BitmapImage id="imageDisplay" left="4" right="4" top="4" bottom="4"
+				   width="100%" height="100%"  verticalCenter="0" horizontalCenter="0"/>
 	
 	<component:LoadingSpinner id="spinner" 
 								 verticalCenter="0" horizontalCenter="0" 

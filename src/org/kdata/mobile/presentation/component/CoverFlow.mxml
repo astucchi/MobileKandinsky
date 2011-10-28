@@ -2,12 +2,12 @@
 <s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 creationComplete="init()" width="100%" height="100%" 
 		 xmlns:parsley="http://www.spicefactory.org/parsley" 
 		 xmlns:presentation="org.kdata.mobile.presentation.*" 
 		 xmlns:binding="org.spicefactory.parsley.binding.*" 
 		 xmlns:component="org.kdata.mobile.presentation.component.*"
-		 currentState="Loading">
+		 currentState="Loading"
+		 creationComplete="init()" width="100%" height="100%" >
 	<s:states>
 		<s:State name="Complete"/>
 		<s:State name="Loading"/>
@@ -178,14 +178,11 @@
 		]]>
 	</fx:Script>
 	
-	<s:Rect width="100%" height="100%">
-		<s:fill>
-			<s:SolidColor color="#0066FF"/>
-		</s:fill>
-	</s:Rect>
+
 	
 	
 	<s:List id="list" height="100%" width="100%" skinClass="{ListComponentSkin}"
+			left="10" right="10" top="10" bottom="10"
 			visible.Loading="false" visible.Complete="true"
 			itemRenderer="{_itemRenderer}" selectedIndex="{model.index}" 
 			change="listChangeIndex(event)"  
@@ -199,7 +196,8 @@
 	<component:LoadingSpinner  id="spinner" width="100%" height="100%"
 							   size="150" numTicks="30" tickWidth="18" 
 							   verticalCenter="0" horizontalCenter="0"
-							   includeIn="Loading"/>			
+							   includeIn="Loading"
+							   />			
 	<!--	
 	<s:VSlider id="idxSlider" minimum="0" maximum="{list.dataProvider.length-1}"  left="5" bottom="20"
 			   snapInterval="1" liveDragging="true" value="{model.index}"  rotation="180" change="sliderChangeIndex(event)" top="5"/>	

@@ -5,7 +5,7 @@
 					  xmlns:parsley="http://www.spicefactory.org/parsley"
 					  xmlns:component="org.kdata.mobile.presentation.component.*"
 					  width="100%" height="100%" 
-					  skinClass="{ImageViewSkin}">
+					  >
 
 	<fx:Declarations>
 		<parsley:Configure/>
@@ -22,6 +22,9 @@
 	</fx:Script>
 
 	
-	<s:Image width="90%" height="90%" source="{Config.IMAGEPATH}{model.selectedDocument.file}" skinClass="{LoadImageSkin}" />
+	<s:Image verticalCenter="0" horizontalCenter="0" left="10" right="10" top="10" bottom="10"
+		width="100%" height="100%" 
+		source="{Config.IMAGEPATH}{model.selectedDocument.file}" 
+		skinClass="{LoadImageSkin}" />
 	
 </s:SkinnableContainer>

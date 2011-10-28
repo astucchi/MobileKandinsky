@@ -4,6 +4,6 @@
 					xmlns:component="org.kdata.mobile.presentation.component.*"  
 					>
 
-	<component:TouchCheckBox data="{data}" skinClass="org.kdata.mobile.presentation.skin.TouchCheckBoxSkin"/>
+	<component:TouchCheckBox data="{data}" width="100%" />
 	
 </s:ItemRenderer>

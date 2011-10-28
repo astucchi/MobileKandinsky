@@ -5,7 +5,7 @@
 		   xmlns:spicefactory="http://www.spicefactory.org/parsley/pimento"
 			xmlns:parsley="http://www.spicefactory.org/parsley" 
 			xmlns:presentation="org.kdata.mobile.presentation.*"
-			skinClass="{DetailsViewSkin}" >
+			>
 
 	<fx:Declarations>
 		<parsley:Configure/>
@@ -79,6 +79,7 @@
 		]]>
 	</fx:Script>
 
-	<presentation:FilterView  dataProvider="{dataList}"/>
+	<presentation:FilterView  dataProvider="{dataList}" width="100%"
+							  left="10" right="10" top="15" bottom="15" />
 	
 </s:SkinnableContainer>

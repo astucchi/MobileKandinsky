@@ -5,7 +5,7 @@
 		 xmlns:presentation="org.kdata.mobile.presentation.*"
 		 xmlns:parsley="http://www.spicefactory.org/parsley"
 		 xmlns:component="org.kdata.mobile.presentation.component.*"
-		 width="100%" height="100%" currentState="Default">
+		 width="100%" height="100%" currentState="Default" xmlns:components="components.*">
 	<s:states>
 		<s:State name="Default"/>
 		<s:State name="ImageZoom"/>
@@ -75,7 +75,7 @@
 								changeIndex="changeIndex_handler()"
 								width="30%" height="100%"/>
 		<s:VGroup width="70%" height="100%" >
-			<component:TitleLabel width="100%" height="15%" skinClass="{TitleLabelSkin}" label="{model.selectedDocument.titolo.text}" />
+			<presentation:TitleLabelView width="100%" height="100%" />
 <!--			<s:Label width="100%" height="15%" maxHeight="60" 
 					fontSize="40" textAlign="center" 
 					paddingBottom="10" paddingLeft="10" paddingTop="10" 
@@ -85,9 +85,8 @@
 			
 		</s:VGroup>
 	</s:HGroup>
-
+	<components:DetailsView height="100" width="100"/>
 	<presentation:ImageZoomView width="100%" height="100%" CloseZoom="currentState='Default'"
-								skinClass="{ImageZoomViewSkin}"
 								visible.Default="false"/>
 
 </s:Group>
