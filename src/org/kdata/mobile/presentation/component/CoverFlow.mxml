@@ -50,14 +50,14 @@
 			
 			public static var CHANGE_INDEX : String="changeIndex";  
 			
-			Multitouch.inputMode = MultitouchInputMode.GESTURE;
+			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
 			
 			private function init():void
 			{
-/* 				addEventListener(MouseEvent.MOUSE_DOWN,mouseDown);
-				addEventListener(MouseEvent.MOUSE_UP,mouseUp);
-				addEventListener(MouseEvent.MOUSE_WHEEL,mouseWheel); */
-				addEventListener(TransformGestureEvent.GESTURE_SWIPE,swipe);
+ 				addEventListener(TouchEvent.TOUCH_BEGIN,mouseDown);
+				addEventListener(TouchEvent.TOUCH_END,mouseUp);
+//				addEventListener(MouseEvent.MOUSE_WHEEL,mouseWheel);
+//				addEventListener(TransformGestureEvent.GESTURE_SWIPE,swipe);
 			}
 			
 			// getter & setter
@@ -80,7 +80,7 @@
 			
 			// private function
 			
-			private function swipe(event:TransformGestureEvent):void
+/* 			private function swipe(event:TransformGestureEvent):void
 			{
 				var step:Number;
 				
@@ -103,9 +103,9 @@
 						list.selectedIndex=_selectedIndex;
 					this.dispatchEvent(new Event(CHANGE_INDEX));
 				
-			}
+			} */
 			
-			private function mouseUp(e:MouseEvent):void
+			private function mouseUp(e:TouchEvent):void
 			{
 				_yUp=e.stageY;
 				_xUp=e.stageX;
@@ -114,7 +114,7 @@
 					return;
 				}
 				var _selectedIndex:Number=list.selectedIndex;
-				var step:Number=Math.round((_yDown-_yUp)/25);
+				var step:Number=Math.round((_yDown-_yUp)/40);
 				if(step!=0)
 				{
 					_selectedIndex+=step
@@ -128,12 +128,12 @@
 				}
 			}
 			
-			private function mouseDown(e:MouseEvent):void
+			private function mouseDown(e:TouchEvent):void
 			{
 				_yDown=e.stageY;
 				_xDown=e.stageX;
 			}
-			private function mouseWheel(e:MouseEvent):void
+/* 			private function mouseWheel(e:MouseEvent):void
 			{
 				var _selectedIndex:Number=list.selectedIndex;
 				_selectedIndex-=e.delta;
@@ -144,7 +144,7 @@
 				else
 					list.selectedIndex=_selectedIndex;
 				this.dispatchEvent(new Event(CHANGE_INDEX));
-			}
+			} */
 			
 			private function listChangeIndex(e:IndexChangeEvent):void
 			{
