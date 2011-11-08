@@ -5,6 +5,7 @@ package org.kdata.mobile.application
 				public static const LIMIT:int = 100;
 				public static const TOTALE:int = 847;
 				public static const SKIP4LOAD:int = 5;
-				public static const IMAGEPATH:String = "SERVER/img/tn_";
+				public static const IMAGEPATH:String = "SERVER/img/";
+				public static const TNIMAGEPATH:String = IMAGEPATH+"tn_";
 			}
 }

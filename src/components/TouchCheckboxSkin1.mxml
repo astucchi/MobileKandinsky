@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:fx="http://ns.adobe.com/mxml/2009"
+		>
+	<fx:Metadata>[HostComponent("spark.components.CheckBox")]</fx:Metadata>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+		<s:State name="upAndSelected"/>
+		<s:State name="overAndSelected"/>
+		<s:State name="downAndSelected"/>
+		<s:State name="disabledAndSelected"/>
+	</s:states>
+	<s:Rect left="0" right="0" top="0" bottom="0" >
+		<s:stroke>
+			<s:SolidColorStroke caps="none" color="#5C5C5C" joints="miter" miterLimit="4"
+								weight="4"/>
+		</s:stroke>
+		<s:fill>
+			<s:SolidColor color="#CCCCCC"
+						  color.disabled="#CCCCCC"
+						  color.disabledAndSelected="#999999"
+						  color.downAndSelected="#999999"
+						  color.overAndSelected="#999999"
+						  color.upAndSelected="#999999"/>
+		</s:fill>
+	</s:Rect>
+	<s:RichText id="labelDisplay" left="50" right="5" top="10" bottom="5" color="black"
+				fontFamily="Arial" fontSize="33" lineHeight="143%" paddingBottom="3" paddingLeft="3"
+				paddingRight="3" paddingTop="3" tabStops="S0 S50 S100 S150 S200 S250 S300"/>
+</s:Skin>
