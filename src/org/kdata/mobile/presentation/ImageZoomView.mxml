@@ -1,17 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 					  xmlns:s="library://ns.adobe.com/flex/spark" 
-					  width="100%" height="100%" verticalCenter="0" horizontalCenter="0"
-					  xmlns:parsley="http://www.spicefactory.org/parsley" >
+					  verticalCenter="0" horizontalCenter="0"
+					  xmlns:parsley="http://www.spicefactory.org/parsley"
+					  height="{FlexGlobals.topLevelApplication.height}" width="{FlexGlobals.topLevelApplication.width}"
+					  maxHeight="{FlexGlobals.topLevelApplication.height}" maxWidth="{FlexGlobals.topLevelApplication.width}">
 	<fx:Script>
 		<![CDATA[
+			import mx.core.FlexGlobals;
+			import mx.core.UIComponent;
+			
 			import org.kdata.mobile.application.Config;
 			import org.kdata.mobile.presentation.skin.LoadImageSkin;
 			
 			[Inject][Bindable]public var model:MainPresentationModel;
 			
 			public static const CLOSE_ZOOM:String = "CloseZoom";
+			
+			private function zoom(event:TransformGestureEvent):void
+			{
 
+				img.horizontalCenter=null;
+				img.verticalCenter=null;
+				
+				var zoomScaleX:Number=img.scaleX * (event.scaleX+event.scaleY)/2;
+				var zoomScaleY:Number=img.scaleY * (event.scaleX+event.scaleY)/2;
+
+				if(zoomScaleX < 1 )
+				{
+					img.scaleX=1;
+					img.scaleY=1;
+					img.horizontalCenter=0;
+					img.verticalCenter=0;
+				}
+				else if(zoomScaleX < 3 )
+				{
+					img.transformAround(new Vector3D(event.localX, event.localY, 0), new Vector3D(zoomScaleX,zoomScaleY , 0));
+					
+					if((img.height*img.scaleY) < this.height)
+						img.verticalCenter=0;
+					else
+						img.verticalCenter=null;
+					if((img.width*img.scaleX) < this.width)
+						img.horizontalCenter=0;
+					else
+						img.horizontalCenter=null;
+				}
+		
+			}
+			
+			protected function pan(event:TransformGestureEvent):void
+			{
+				var _offsetX:Number =img.x + event.offsetX;
+				var _offsetY:Number =img.y + event.offsetY ;
+				
+				if(img.height * img.scaleY > this.height)
+				{
+					// vericale
+					if(event.offsetY < 0 && (img.y+img.height*img.scaleY) > this.height)
+					{
+						img.y = _offsetY;
+ 						if(img.y+img.height*img.scaleY<this.height)
+							img.y=this.height-img.height*img.scaleY; 
+					}
+						
+					if(event.offsetY > 0 && img.y < 0)
+					{
+						img.y = _offsetY;
+ 						if(img.y>0)
+							img.y=0; 
+					}					
+				} 
+				
+				if(img.width * img.scaleX > this.width)
+				{
+					//orizzontale
+					if(event.offsetX < 0 && (img.x+img.width*img.scaleX) > this.width)
+					{
+						img.x = _offsetX;
+						if(img.x+img.width*img.scaleX<this.width)
+							img.x=this.width-img.width*img.scaleX; 
+					}
+					
+					if(event.offsetX > 0 && img.x < 0)
+					{
+						img.x = _offsetX;
+						if(img.x>0)
+							img.x=0; 
+					}
+				}
+				
+			}
+			
+			private function closeHandler():void
+			{
+				img.scaleX=1;
+				img.scaleY=1;
+				img.verticalCenter=0;
+				img.horizontalCenter=0;
+				dispatchEvent(new Event(CLOSE_ZOOM))
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Metadata>
@@ -20,11 +109,17 @@
 	<fx:Declarations>
 		<parsley:Configure/>
 	</fx:Declarations>
+	<s:show>
+		<![CDATA[
+ 		Multitouch.inputMode = MultitouchInputMode.GESTURE;
+
+		img.horizontalCenter=0;
+		img.verticalCenter=0;
+		]]>
+	</s:show>
+	<s:Image id="img" maxHeight="{this.height}" maxWidth="{this.width}" 
+			  gestureZoom="zoom(event)" gesturePan="pan(event)"
+			 source="{Config.IMAGEPATH}{model.selectedDocument.file}" 
+			 doubleClick="closeHandler()" skinClass="{LoadImageSkin}" />
 	
-
-	<s:Image width="100%" height="100%" verticalCenter="0" horizontalCenter="0"
-				 source="{Config.IMAGEPATH}{model.selectedDocument.file}" 
-				 skinClass="{LoadImageSkin}" click="dispatchEvent(new Event(CLOSE_ZOOM))" />
-
-
 </s:SkinnableContainer>

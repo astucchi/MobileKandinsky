@@ -80,13 +80,14 @@
 					fontSize="40" textAlign="center" 
 					paddingBottom="10" paddingLeft="10" paddingTop="10" 
 					text="{model.selectedDocument.titolo.text}" />-->
-			<presentation:ImageView click="currentState='ImageZoom'" />
+			<presentation:ImageView doubleClick="currentState='ImageZoom'" />
 			<presentation:DetailsView id="details" width="100%" height="100%" filterReload="coverFlow.loading()"/>
 			
 		</s:VGroup>
 	</s:HGroup>
 <!--	<components:DetailsView height="100" width="100"/>
--->	<presentation:ImageZoomView width="100%" height="100%" CloseZoom="currentState='Default'"
+-->	<presentation:ImageZoomView left="0" right="0" top="0" bottom="0" width="100%" height="100%"
+								CloseZoom="currentState='Default';Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;"
 								visible.Default="false"/>
 
 </s:Group>
