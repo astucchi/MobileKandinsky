@@ -32,12 +32,14 @@
 	
 	<fx:Script>
 		<![CDATA[			
+			import org.kdata.mobile.events.CalloutEvent;
 			import org.kdata.mobile.presentation.skin.ImageZoomViewSkin;
 			import org.kdata.mobile.presentation.skin.TitleLabelSkin;
 			import org.kdata.mobile.events.DetailsEvent;
 			import org.kdata.mobile.presentation.MainPresentationModel;
 			import org.kdata.mobile.application.Config;
 			
+			private var swv:StageWebView;
 			
 			
 			[Inject] [Bindable]
@@ -48,23 +50,56 @@
 				model.getInitialImgList();
 			}
 			
+			[MessageHandler] public function loadCompleteNull(e:DetailsEvent):void
+			{
+				switch(e.type)
+				{
+					case DetailsEvent.DETAILS_CHANGE:
+					{
+						coverFlow.loadComplete();
+					}
+				}
+			}
+			
 			private function changeIndex_handler():void
 			{
+				if(swv)
+				{
+					swv.viewPort=null;
+					swv.dispose();
+					swv=null;
+				}
+
 				model.selectedDocument=coverFlow.list.selectedItem;
-				details.filter(new DetailsEvent(DetailsEvent.DETAILS_CHANGE));
+				//details.filter(new DetailsEvent(DetailsEvent.DETAILS_CHANGE));
+				if(model.selectedDocument.type=="text")
+				{
+					swv = new StageWebView();
+					swv.viewPort = new Rectangle(right.x+20, content.y+20, content.width-40, content.height-40);
+					swv.stage=content.stage;
+					swv.loadURL(Config.IMAGEPATH+model.selectedDocument.file);
+					swv.addEventListener(MouseEvent.DOUBLE_CLICK,function ():void{currentState='ImageZoom'});
+				}
+				if(model.selectedDocument.type=="video")
+				{
+					
+				}
+					
 				//model.getDetails(coverFlow.list.selectedItem._id);
 				if(coverFlow.list.dataProvider.length>=Config.LIMIT)
-				if((coverFlow.list.selectedIndex < Config.SKIP4LOAD  ) || (coverFlow.list.selectedIndex > Config.LIMIT-Config.SKIP4LOAD ))
-					if((coverFlow.list.selectedItem.index > Config.SKIP4LOAD && coverFlow.list.selectedItem.index < Config.TOTALE-Config.SKIP4LOAD))
+					if((coverFlow.list.selectedIndex < Config.SKIP4LOAD  ) || (coverFlow.list.selectedIndex > Config.LIMIT-Config.SKIP4LOAD ))
+						if((coverFlow.list.selectedItem.index > Config.SKIP4LOAD && coverFlow.list.selectedItem.index < Config.TOTALE-Config.SKIP4LOAD))
 						{
 							var _skip:int=coverFlow.list.selectedItem.index-(Math.floor(Config.LIMIT/2));
 							if(_skip > 0 && _skip < Config.TOTALE )
-								{
- 								coverFlow.loading();
+							{
+	 							coverFlow.loading();
+								model.isNewFilter=false;
 								model.load(_skip);
-								}
-					}
+							}
+						}
 			}
+			
 			
 		]]>
 	</fx:Script>
@@ -74,13 +109,13 @@
 								dataProvider="{model.documents}"
 								changeIndex="changeIndex_handler()"
 								width="30%" height="100%"/>
-		<s:VGroup width="70%" height="100%" >
+		<s:VGroup id="right" width="70%" height="100%" >
 			<presentation:TitleLabelView width="100%" height="100%" />
 <!--			<s:Label width="100%" height="15%" maxHeight="60" 
 					fontSize="40" textAlign="center" 
 					paddingBottom="10" paddingLeft="10" paddingTop="10" 
 					text="{model.selectedDocument.titolo.text}" />-->
-			<presentation:ImageView doubleClick="currentState='ImageZoom'" />
+			<presentation:ImageView id="content" click="currentState='ImageZoom'" doubleClick="currentState='ImageZoom'" />
 			<presentation:DetailsView id="details" width="100%" height="100%" filterReload="coverFlow.loading()"/>
 			
 		</s:VGroup>

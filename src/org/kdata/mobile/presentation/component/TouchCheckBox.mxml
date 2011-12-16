@@ -2,18 +2,47 @@
 <s:CheckBox xmlns:fx="http://ns.adobe.com/mxml/2009" 
 					  xmlns:s="library://ns.adobe.com/flex/spark" 
 					  xmlns:parsley="http://www.spicefactory.org/parsley"
-					  click="click_Handler(event)">
+					  mouseDown="mouseDownHandler(event)"
+					  addedToStage="stage.addEventListener(StageOrientationEvent.ORIENTATION_CHANGE,orientationChange)"
+					  width="100%">
 	<fx:Declarations>
 		<parsley:Configure/>
 	</fx:Declarations>
-	
+	<fx:Metadata>
+		[SkinState("up")]
+		[SkinState("over")]
+		[SkinState("down")]
+		[SkinState("disabled")]
+		[SkinState("upAndSelected")]
+		[SkinState("overAndSelected")]
+		[SkinState("downAndSelected")]
+		[SkinState("disabledAndSelected")]
+	</fx:Metadata>
+	<s:states>
+		<s:State name="up" enterState="invalidateSkinState()"/>
+		<s:State name="over" enterState="invalidateSkinState()"/>
+		<s:State name="down" enterState="invalidateSkinState()"/>
+		<s:State name="disabled" enterState="invalidateSkinState()"/>
+		<s:State name="upAndSelected" enterState="invalidateSkinState()"/>
+		<s:State name="overAndSelected" enterState="invalidateSkinState()"/>
+		<s:State name="downAndSelected" enterState="invalidateSkinState()"/>
+		<s:State name="disabledAndSelected" enterState="invalidateSkinState()"/>
+	</s:states>
+
 	<fx:Script>
 		<![CDATA[
+			import org.kdata.mobile.application.MongoEvent;
+			import org.kdata.mobile.events.CalloutEvent;
 			import org.kdata.mobile.events.DetailsEvent;
+			import org.kdata.mobile.presentation.MainPresentationModel;
 			import org.spicefactory.parsley.core.messaging.impl.MessageDispatcher;
 			private var _data:Object;
+			private var time:Timer;
+			private var boxCallout:CalloutFilter;
 			
 			[MessageDispatcher] public var dispatchMessage:Function;
+			
+			[Inject][Bindable] public var model:MainPresentationModel;
 			
 			public function get data():Object
 			{
@@ -27,15 +56,74 @@
 				label = data.text;
 				id = data.label;
 				_data.checked = selected
+				this.addEventListener(MouseEvent.CLICK,click_Handler);
 			}
 			
 			protected function click_Handler(event:MouseEvent):void
 			{
+				setState();
+				model.isNewFilter=false;
 				_data.checked = selected;
 				dispatchMessage(new DetailsEvent(DetailsEvent.FILTER_CHANGE));
+			}
+			
+			protected function mouseDownHandler(event:MouseEvent):void
+			{
+				this.addEventListener(MouseEvent.MOUSE_UP,mouseUpHandler);
+				time = new Timer(2000);
+				time.start();
+				time.addEventListener(TimerEvent.TIMER, timerHandler);
+			}
+			private function timerHandler(e:TimerEvent):void
+			{
+				boxCallout = new CalloutFilter();
+				boxCallout.open(this);
+				boxCallout.spinnerList.dataProvider=model.filters[data.label]
+				boxCallout.addEventListener(CalloutEvent.CLOSE_CALLOUT,closeCallout);
+				this.removeEventListener(MouseEvent.MOUSE_UP,mouseUpHandler);
+				time.stop();
+				this.removeEventListener(MouseEvent.CLICK,click_Handler);
+				
+			}
+			
+			protected function mouseUpHandler(event:MouseEvent):void
+			{
+				this.removeEventListener(MouseEvent.MOUSE_UP,mouseUpHandler);
+				time.stop();
+				this.addEventListener(MouseEvent.CLICK,click_Handler);
+			}
+			
+			private function orientationChange(event:StageOrientationEvent):void
+			{
+				if(boxCallout)
+					boxCallout.close();
+			}
+			
+			private function closeCallout(event:CalloutEvent):void
+			{
+				label=event.params as String;
+				selected=true;
+				model.isNewFilter=true;
+				setState();
+				_data.checked = selected;
+				dispatchMessage(new DetailsEvent(DetailsEvent.FILTER_CHANGE));
+			}
+			
+			private function setState():void
+			{
+				if(selected)
+					currentState="upAndSelected";
+				else
+					currentState="up";
+				
+			}
+			
+			override protected function getCurrentSkinState():String {
+				return currentState;
 			}
 			
 		]]>
 	</fx:Script>
 
+	
 </s:CheckBox>

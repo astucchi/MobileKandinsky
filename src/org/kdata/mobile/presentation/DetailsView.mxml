@@ -4,7 +4,7 @@
 		   xmlns:mx="library://ns.adobe.com/flex/mx"
 		   xmlns:spicefactory="http://www.spicefactory.org/parsley/pimento"
 			xmlns:parsley="http://www.spicefactory.org/parsley" 
-			xmlns:presentation="org.kdata.mobile.presentation.*"
+			xmlns:presentation="org.kdata.mobile.presentation.*" xmlns:renderers="org.kdata.mobile.presentation.renderers.*" xmlns:component="org.kdata.mobile.presentation.component.*"
 			>
 
 	<fx:Declarations>
@@ -35,7 +35,7 @@
 				{
 					case DetailsEvent.DETAILS_CHANGE:
 					{
-						dataList.removeAll();
+/* 						dataList.removeAll();
 						for each(var obj:Object in model.selectedDocument as Object)
 						{
 							if(getQualifiedClassName(obj) == getQualifiedClassName(Object))
@@ -43,15 +43,22 @@
 								if(obj.label!="titolo")
 									dataList.addItem(obj);
 							}
-						}
-						break;
+						}*/
+						break; 
 					}
 					
 					case DetailsEvent.FILTER_CHANGE:
 					{
 						var doc:Document = new Document();
 						
-						for each(obj in model.selectedDocument as Object)
+						for (var i:int=0;i<container.rowCount;i++)
+						{
+							var check:TouchCheckBox = container.getElementAt(i) as TouchCheckBox;
+							if(check.selected)
+								doc.put(check.id+ ".text" , check.label)
+						}
+						
+/* 						for each(obj in model.selectedDocument as Object)
 						{
 							if(getQualifiedClassName(obj) == getQualifiedClassName(Object))
 							{
@@ -61,7 +68,7 @@
 								}
 							}
 
-						}
+						} */
 						model.docSelected=doc;
 						dispatchEvent(new Event(FILTER_RELOAD));
 						model.load();
@@ -78,8 +85,18 @@
 			}
 		]]>
 	</fx:Script>
-
-	<presentation:FilterView  dataProvider="{dataList}" width="100%"
-							  left="10" right="10" top="15" bottom="15" />
+	<s:VGroup id="container" width="100%"
+			  left="10" right="10" top="15" bottom="15">
+		<component:TouchCheckBox data="{model.selectedDocument.anno}"/>
+		<component:TouchCheckBox data="{model.selectedDocument.citta}"/>
+		<component:TouchCheckBox data="{model.selectedDocument.collocazione}"/>
+		<component:TouchCheckBox data="{model.selectedDocument.natura}"/>
+		<component:TouchCheckBox data="{model.selectedDocument.subnatura}"/>
+		<component:TouchCheckBox data="{model.selectedDocument.dimensioni}"/>
+		
+		
+	</s:VGroup>
+<!--	<presentation:FilterView  dataProvider="{dataList}" width="100%"
+							  left="10" right="10" top="15" bottom="15" />-->
 	
 </s:SkinnableContainer>

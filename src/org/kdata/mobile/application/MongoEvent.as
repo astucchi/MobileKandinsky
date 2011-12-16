@@ -4,11 +4,13 @@ package org.kdata.mobile.application
 	
 	public class MongoEvent extends Event
 	{
-		public static const SEND_GET_ALL:String  =	"sendGetAll";
-		public static const REPLY_GET_ALL:String =	"replyGetAll";
-		public static const SEND_GET_ONE:String  =	"sendGetOne";
-		public static const REPLY_GET_ONE:String =	"replyGetOne";
-		public static const SEND_GET_BY:String   =	"sendGetBy";
+		public static const SEND_GET_ALL:String  		=	"sendGetAll";
+		public static const REPLY_GET_ALL:String 		=	"replyGetAll";
+		public static const SEND_GET_ONE:String  		=	"sendGetOne";
+		public static const REPLY_GET_ONE:String 		=	"replyGetOne";
+		public static const SEND_GET_BY:String   		=	"sendGetBy";
+		public static const SEND_GET_FILTERS:String    	=	"sendGetFilters";
+		public static const REPLY_GET_FILTERS:String	=	"replyGetFilters";
 
 		
 		public var params:Object;
@@ -38,6 +40,14 @@ package org.kdata.mobile.application
 		public static function sendGetBy(obj:Object=null):MongoEvent
 		{
 			return new MongoEvent(SEND_GET_BY,obj);
+		}
+		public static function sendGetFilters(obj:Object=null):MongoEvent
+		{
+			return new MongoEvent(SEND_GET_FILTERS,obj);
+		}
+		public static function replyGetFilters(obj:Object=null):MongoEvent
+		{
+			return new MongoEvent(REPLY_GET_FILTERS,obj);
 		}
 	}
 }

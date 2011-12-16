@@ -158,7 +158,7 @@
 				this.dispatchEvent(new Event(CHANGE_INDEX));
 			}
 			
-			private function loadComplete():void
+			public function loadComplete():void
 			{
 				if (model.isLoading)
 				{

@@ -17,12 +17,15 @@ package org.kdata.mobile.presentation
 		[Bindable] public var docSelected:Document = new Document();
 		[Bindable] public var index:int = -1;
 		[Bindable] public var isLoading:Boolean = true;
+		[Bindable] public var filters:Object = new Object();
+		[Bindable] public var isNewFilter:Boolean = false;
 		
 		[MessageDispatcher] public var dispatchMessage:Function;
 		
 		public function getInitialImgList():void
 		{
 			dispatchMessage(InitEvent.getAppReady());
+			isNewFilter=true;
 		}
 		
 		public function getDetails(id:ObjectID):void

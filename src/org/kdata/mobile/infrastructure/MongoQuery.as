@@ -54,6 +54,17 @@ package org.kdata.mobile.infrastructure
 
 		}
 		
+		public function runCommand(params:Object):void
+		{
+			try
+			{
+				cursor=db.runCommand(params as Document,readFilter);
+			}catch(e:Error)
+			{
+				trace(e.message, "Errore connessione DB");
+			}
+		}
+		
 		public function getOne(params:Object):void
 		{
 			try
@@ -96,10 +107,20 @@ package org.kdata.mobile.infrastructure
 			var obj:Object=new Object();
 			obj.result=documents;
 	
-			dispatcheMessage(MongoEvent.replyGetAll(obj))
+			dispatcheMessage(MongoEvent.replyGetAll(obj));
 		}
 		
-		
+		private function readFilter():void
+		{
+			var documents:ArrayCollection=new ArrayCollection();
+			for each(var reply:Object in cursor.replies[0].documents[0].values)
+			{
+				documents.addItem(reply.text);
+			}
+			var obj:Object=new Object();
+			obj.result=documents;
+			dispatcheMessage(MongoEvent.replyGetFilters(obj));
+		}
 		private function readOne():void
 		{
 			var obj:Object=new Object();

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Callout xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark"
+		   mouseDownOutside="close()" xmlns:parsley="http://www.spicefactory.org/parsley"
+		   >
+	<fx:Declarations>
+		<parsley:Configure/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import flashx.textLayout.events.ModelChange;
+			
+			import mx.events.FlexEvent;
+			
+			import org.kdata.mobile.events.CalloutEvent;
+			import org.kdata.mobile.presentation.MainPresentationModel;
+			
+			import spark.events.IndexChangeEvent;
+			
+			[Bindable][Inject] public var model:MainPresentationModel;	
+			
+			private function clickOption(event:MouseEvent):void
+			{
+				spinnerList.addEventListener(IndexChangeEvent.CHANGE,changeOption);
+			}
+			
+			private function changeOption(e:IndexChangeEvent):void
+			{
+				close();
+				dispatchEvent(new CalloutEvent(CalloutEvent.CLOSE_CALLOUT,spinnerList.selectedItem));
+			}
+
+			
+		]]>
+	</fx:Script>
+	
+	<s:SpinnerListContainer>
+		<s:SpinnerList id="spinnerList" width="200" click="clickOption(event)" >
+		</s:SpinnerList>
+	</s:SpinnerListContainer>
+</s:Callout>

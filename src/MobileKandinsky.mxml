@@ -5,7 +5,8 @@
 			   xmlns:presentation="org.kdata.mobile.presentation.*" 
 			   applicationDPI="160"
 			   creationComplete="init()" 
-			   >
+			   splashScreenImage="@Embed('assets/splah.jpg')" splashScreenMinimumDisplayTime="2500"
+			   backgroundColor="black">
 	<fx:Style source="MobileKandinsky.css"/>
 	<fx:Script>
 		<![CDATA[
@@ -18,6 +19,7 @@
 	<fx:Declarations>
 		<parsley:ContextBuilder config="{KandinskyConfig}"/>
 	</fx:Declarations>
+
 	
 	<s:Rect width="100%" height="100%" >
 		<s:fill>
@@ -25,5 +27,5 @@
 		</s:fill>
 	</s:Rect>
 	
-	<presentation:MainView />	
+	<presentation:MainView width="100%" height="100%"/>	
 </s:Application>

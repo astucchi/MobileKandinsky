@@ -4,18 +4,35 @@
 					  verticalCenter="0" horizontalCenter="0"
 					  xmlns:parsley="http://www.spicefactory.org/parsley"
 					  height="{FlexGlobals.topLevelApplication.height}" width="{FlexGlobals.topLevelApplication.width}"
-					  maxHeight="{FlexGlobals.topLevelApplication.height}" maxWidth="{FlexGlobals.topLevelApplication.width}">
+					  maxHeight="{FlexGlobals.topLevelApplication.height}" maxWidth="{FlexGlobals.topLevelApplication.width}"
+					  xmlns:mx="library://ns.adobe.com/flex/mx"
+					  addedToStage="stage.addEventListener(StageOrientationEvent.ORIENTATION_CHANGE,orientationChange);" xmlns:component="org.kdata.mobile.presentation.component.*">
 	<fx:Script>
 		<![CDATA[
+			import flash.net.dns.AAAARecord;
+			import flash.sampler.NewObjectSample;
+			
 			import mx.core.FlexGlobals;
 			import mx.core.UIComponent;
+			import mx.utils.ObjectUtil;
 			
 			import org.kdata.mobile.application.Config;
+			import org.kdata.mobile.presentation.component.PopUp;
 			import org.kdata.mobile.presentation.skin.LoadImageSkin;
+			import org.kdata.mobile.presentation.skin.TitleLabelSkin;
+			import org.osmf.events.TimeEvent;
 			
 			[Inject][Bindable]public var model:MainPresentationModel;
 			
 			public static const CLOSE_ZOOM:String = "CloseZoom";
+			
+			private var swv:StageWebView;
+			private var video:Video;
+			private var meta:Object;
+			private var conn:NetConnection;
+			private var stream:NetStream;
+			
+			private var time:Timer;
 			
 			private function zoom(event:TransformGestureEvent):void
 			{
@@ -28,20 +45,18 @@
 
 				if(zoomScaleX < 1 )
 				{
-					img.scaleX=1;
-					img.scaleY=1;
-					img.horizontalCenter=0;
-					img.verticalCenter=0;
+					reSizeImage();
 				}
 				else if(zoomScaleX < 3 )
 				{
 					img.transformAround(new Vector3D(event.localX, event.localY, 0), new Vector3D(zoomScaleX,zoomScaleY , 0));
 					
-					if((img.height*img.scaleY) < this.height)
+					if((img.height*img.scaleY) < container.height)
 						img.verticalCenter=0;
 					else
 						img.verticalCenter=null;
-					if((img.width*img.scaleX) < this.width)
+						
+					if((img.width*img.scaleX) < container.width)
 						img.horizontalCenter=0;
 					else
 						img.horizontalCenter=null;
@@ -94,12 +109,75 @@
 			
 			private function closeHandler():void
 			{
+				if(swv)
+				{
+					swv.viewPort=null;
+					swv.dispose();
+					swv=null;
+				}
+				if(video)
+				{
+					uic.removeChild(video);
+					video=null;
+				}
+				
 				img.scaleX=1;
 				img.scaleY=1;
 				img.verticalCenter=0;
 				img.horizontalCenter=0;
 				dispatchEvent(new Event(CLOSE_ZOOM))
 			}
+			
+			private function reSizeImage():void
+			{
+				img.scaleX=1;
+				img.scaleY=1;
+				img.horizontalCenter=0;
+				img.verticalCenter=0;
+			}
+			
+			private function ns_onMetaData(item:Object):void {
+				trace("meta");
+				meta = item;
+				// Resize Video object to same size as meta data.
+//				video.width = item.width;
+//				video.height = item.height;
+				// Resize UIComponent to same size as Video object.
+//				uic.width = video.width;
+//				uic.height = video.height;
+//				video.width=uic.width;
+//				video.height=uic.height;
+				
+				trace(ObjectUtil.toString(item));
+			}
+			
+			private function ns_onCuePoint(item:Object):void {
+				trace("cue");
+			}
+			
+			private function orientationChange(event:StageOrientationEvent):void
+			{
+				if(video)
+				{
+					video.width=width-40;
+					video.height=height-40;	
+				}
+				
+/* 				switch(event.afterOrientation)
+				{
+					case StageOrientation.DEFAULT:
+						break;
+					case StageOrientation.ROTATED_RIGHT:
+						break;
+					case StageOrientation.ROTATED_LEFT:
+						break;
+					case StageOrientation.UPSIDE_DOWN:
+						break;
+					case StageOrientation.UNKNOWN:
+						break;
+				} */
+			}
+
 			
 		]]>
 	</fx:Script>
@@ -109,17 +187,63 @@
 	<fx:Declarations>
 		<parsley:Configure/>
 	</fx:Declarations>
+
 	<s:show>
 		<![CDATA[
  		Multitouch.inputMode = MultitouchInputMode.GESTURE;
 
-		img.horizontalCenter=0;
-		img.verticalCenter=0;
+		if(model.selectedDocument.type=="text")
+		{
+			swv = new StageWebView();
+			swv.viewPort = new Rectangle(x+20, y+80, width-40, height-40);
+			swv.stage=stage;
+			swv.loadURL(Config.IMAGEPATH+model.selectedDocument.file);
+			img.visible=false
+		}
+		else if(model.selectedDocument.type=="video")
+		{
+			img.visible=false;
+			var nsClient:Object = {};
+			nsClient.onMetaData = ns_onMetaData;
+			nsClient.onCuePoint = ns_onCuePoint;
+			conn= new NetConnection();
+			conn.connect(null);
+			stream = new NetStream(conn);
+			stream.play(Config.IMAGEPATH+model.selectedDocument.file);
+			stream.client=nsClient;
+			video = new Video();
+			video.attachNetStream(stream);
+			uic.addChild(video);
+
+		}
+		
+		else
+		{
+			img.visible=true;
+			img.horizontalCenter=0;
+			img.verticalCenter=0;
+		}
+
 		]]>
 	</s:show>
-	<s:Image id="img" maxHeight="{this.height}" maxWidth="{this.width}" 
-			  gestureZoom="zoom(event)" gesturePan="pan(event)"
-			 source="{Config.IMAGEPATH}{model.selectedDocument.file}" 
-			 doubleClick="closeHandler()" skinClass="{LoadImageSkin}" />
+
+	<s:VGroup width="{this.width-40}" height="{this.height-40}">
+		<s:Group width="100%" height="70" id="title">
+			<component:TitleLabel left="10" right="10" top="10" bottom="10"
+								  width="100%" height="100%" skinClass="{TitleLabelSkin}" label="{model.selectedDocument.titolo.text}" />
+			<s:Image source="assets/close_button.png" click="closeHandler()" top="10" right="10" width="{title.height-30}" height="{title.height-30}"/>
+		</s:Group>
+
+		<s:Group id="container" width="100%" height="100%">
+			<mx:UIComponent id="uic" maxHeight="600" maxWidth="800" left="20" right="20" top="20" bottom="20" verticalCenter="0" horizontalCenter="0"/>
+			<s:Image id="img" maxHeight="{this.height}" maxWidth="{this.width}"
+					 doubleClick="reSizeImage()"
+					 gestureZoom="zoom(event)" gesturePan="pan(event)"
+					 source="{Config.IMAGEPATH}{model.selectedDocument.file}" 
+					 skinClass="{LoadImageSkin}" />
+		</s:Group>
+		
+	</s:VGroup>
+
 	
 </s:SkinnableContainer>
