@@ -21,7 +21,9 @@
 			
 			private function clickOption(event:MouseEvent):void
 			{
-				spinnerList.addEventListener(IndexChangeEvent.CHANGE,changeOption);
+				close();
+				dispatchEvent(new CalloutEvent(CalloutEvent.CLOSE_CALLOUT,spinnerList.selectedItem));
+				//spinnerList.addEventListener(IndexChangeEvent.CHANGE,changeOption);
 			}
 			
 			private function changeOption(e:IndexChangeEvent):void
@@ -33,9 +35,12 @@
 			
 		]]>
 	</fx:Script>
-	
-	<s:SpinnerListContainer>
-		<s:SpinnerList id="spinnerList" width="200" click="clickOption(event)" >
-		</s:SpinnerList>
-	</s:SpinnerListContainer>
+	<s:VGroup gap="0">
+		<s:SpinnerListContainer >
+			<s:SpinnerList id="spinnerList" width="200"  >
+			</s:SpinnerList>
+		</s:SpinnerListContainer>
+		<s:Button label="Filtra" width="100%" click="clickOption(event)"/>
+	</s:VGroup>
+
 </s:Callout>
